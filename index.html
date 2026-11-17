@@ -616,7 +616,7 @@ input::placeholder {
   margin-top: 2px;
 }
 
-/* OFFICIAL BUTTONS */
+/* OFFICIAL BUTTONS & ANCHOR BUTTONS */
 .btn {
   width: 100%;
   min-height: 44px;
@@ -632,6 +632,7 @@ input::placeholder {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  text-decoration: none;
   transition: background 0.15s;
 }
 
@@ -649,6 +650,7 @@ input::placeholder {
 .btn-green {
   background: var(--green);
   border-color: var(--green);
+  color: #ffffff;
 }
 
 .btn-green:hover:not(:disabled) {
@@ -973,6 +975,14 @@ input::placeholder {
   line-height: 1.7;
   color: var(--muted);
   margin-bottom: 16px;
+}
+
+.copy-status {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green);
+  margin-top: 8px;
+  min-height: 16px;
 }
 
 @media (max-width: 420px) {
@@ -1300,7 +1310,7 @@ input::placeholder {
             <span>Clicking <strong>SUBMIT BOOKING ON WHATSAPP</strong> will redirect you to the official WhatsApp desk. Please <strong>attach your payment screenshot</strong> before sending.</span>
           </div>
 
-          <button class="btn btn-green" id="sendWhatsApp">
+          <button class="btn btn-green" id="sendWhatsApp" type="button">
             SUBMIT BOOKING ON WHATSAPP
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
               <polyline points="20 6 9 17 4 12"/>
@@ -1370,14 +1380,19 @@ input::placeholder {
     </div>
     <h2>Application Ready for Dispatch</h2>
     <p>
-      Your registration form has been generated. Click below to open the official WhatsApp desk.
+      Your registration form has been generated. Tap below to open the official WhatsApp desk.
       <br><br>
       <strong>Mandatory:</strong> Attach your UPI payment screenshot in the chat before sending.
     </p>
-    <button class="btn btn-green" id="openWhatsApp">
+    <!-- DIRECT ANCHOR LINK FOR RELIABLE MOBILE WHATSAPP REDIRECT -->
+    <a class="btn btn-green" id="openWhatsApp" href="#" target="_blank" rel="noopener noreferrer">
       PROCEED TO WHATSAPP →
+    </a>
+    <button class="btn btn-back" id="copyMsgBtn" type="button">
+      Copy Registration Message
     </button>
-    <button class="btn btn-back" id="closeModal">
+    <div class="copy-status" id="copyStatus"></div>
+    <button class="btn btn-back" id="closeModal" type="button" style="margin-top:4px;">
       Close Window
     </button>
   </div>
@@ -1389,7 +1404,7 @@ const LOGIN_CODES_API_URL = "https://docs.google.com/spreadsheets/d/1kLeQRiNJh1m
 const SLOT_API_URL = "https://docs.google.com/spreadsheets/d/1yU_X1vsQuCpJ0RMzw9V6PU83NGSzobf1yg_qE3Im6K8/export?format=csv";
 
 let verifiedBookingCode = "";
-let whatsappUrl = "";
+let generatedWhatsappMessage = "";
 
 const loginCard = document.getElementById("loginCard");
 const portalWrapper = document.getElementById("portalWrapper");
@@ -1610,6 +1625,11 @@ continueBooking.addEventListener("click", function () {
 document.getElementById("backDetails").addEventListener("click", () => showScreen("details"));
 document.getElementById("backPayment").addEventListener("click", () => showScreen("payment"));
 
+// WHATSAPP URL GENERATOR & MODAL OPENER
+const openWhatsAppLink = document.getElementById("openWhatsApp");
+const copyMsgBtn = document.getElementById("copyMsgBtn");
+const copyStatus = document.getElementById("copyStatus");
+
 document.getElementById("sendWhatsApp").addEventListener("click", function () {
   if (!paymentCheckbox.checked) {
     alert("Please confirm payment first.");
@@ -1618,7 +1638,7 @@ document.getElementById("sendWhatsApp").addEventListener("click", function () {
   }
 
   const d = getDetails();
-  const message =
+  generatedWhatsappMessage =
 `*DJ ESPORTS 2017*
 *OFFICIAL TEAM REGISTRATION*
 
@@ -1643,13 +1663,26 @@ Please review our registration and confirm the team slot after payment verificat
 
 *Thank You | DJ ESPORTS 2017*`;
 
-  whatsappUrl = "https://wa.me/" + ADMIN_WHATSAPP + "?text=" + encodeURIComponent(message);
+  const finalUrl = "https://api.whatsapp.com/send?phone=" + ADMIN_WHATSAPP + "&text=" + encodeURIComponent(generatedWhatsappMessage);
+  openWhatsAppLink.setAttribute("href", finalUrl);
+  copyStatus.textContent = "";
   document.getElementById("successModal").classList.add("active");
 });
 
-document.getElementById("openWhatsApp").addEventListener("click", function () {
-  if (!whatsappUrl) return;
-  window.location.href = whatsappUrl;
+copyMsgBtn.addEventListener("click", async function () {
+  if (!generatedWhatsappMessage) return;
+  try {
+    await navigator.clipboard.writeText(generatedWhatsappMessage);
+    copyStatus.textContent = "✓ Message copied! Paste it in WhatsApp chat.";
+  } catch (err) {
+    const ta = document.createElement("textarea");
+    ta.value = generatedWhatsappMessage;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    copyStatus.textContent = "✓ Message copied! Paste it in WhatsApp chat.";
+  }
 });
 
 document.getElementById("closeModal").addEventListener("click", () => {
