@@ -547,14 +547,13 @@ document.getElementById("openWhatsApp").addEventListener("click",function(){
 
 });
 
-document.getElementById("closeModal").addEventListener("click",function(){
+document.getElementById("closeModal").addEventListener("click",()=>{
   document.getElementById("successModal").classList.remove("active");
 });
 
 
-// CHECK SLOT: paste the deployed Apps Script Web App URL here.
-// The Apps Script endpoint should return JSON: {"slots":[{"slot":1,"teamName":"TEAM A"}, ...]}
-const SLOT_API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+// GOOGLE SHEET PUBLIC CSV URL (Automatically reads data from your Sheet)
+const SLOT_API_URL = "https://docs.google.com/spreadsheets/d/1yU_X1vsQuCpJ0RMzw9V6PU83NGSzobf1yg_qE3Im6K8/export?format=csv";
 
 const slotList = document.getElementById("slotList");
 const slotCount = document.getElementById("slotCount");
@@ -604,26 +603,43 @@ function renderSlots(items){
   slotMessage.textContent = "Slot list updated. Final booking is confirmed only by the tournament admin.";
 }
 
+// Simple CSV parser for Google Sheet export
+function parseCSV(text) {
+  const lines = text.split("\n");
+  const result = [];
+  if (lines.length === 0) return result;
+  
+  const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
+  
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const currentline = lines[i].split(",");
+    const obj = {};
+    for (let j = 0; j < headers.length; j++) {
+      obj[headers[j]] = currentline[j] ? currentline[j].trim().replace(/^"|"$/g, '') : "";
+    }
+    result.push({
+      slot: obj["Slot"] || i,
+      teamName: obj["Team Name"] || ""
+    });
+  }
+  return result;
+}
+
 async function loadSlots(){
   slotMessage.textContent = "Connecting to Google Sheets...";
   slotCount.textContent = "Loading...";
-  if(!SLOT_API_URL || SLOT_API_URL.includes("PASTE_YOUR_")){
-    slotMessage.textContent = "Google Sheets connection abhi configure nahi hui. Apps Script Web App URL add karne ke baad live team names yahan dikhenge.";
-    renderSlots([]);
-    slotCount.textContent = "Not connected";
-    return;
-  }
 
   try{
-    const response = await fetch(SLOT_API_URL + (SLOT_API_URL.includes("?") ? "&" : "?") + "action=getSlots", {cache:"no-store"});
+    const response = await fetch(SLOT_API_URL, {cache:"no-store"});
     if(!response.ok) throw new Error("HTTP " + response.status);
-    const data = await response.json();
-    if(!data || !Array.isArray(data.slots)) throw new Error("Invalid slot data");
-    renderSlots(data.slots);
+    const csvText = await response.text();
+    const slotsData = parseCSV(csvText);
+    renderSlots(slotsData);
   }catch(error){
     slotList.innerHTML = "";
     slotCount.textContent = "Connection error";
-    slotMessage.textContent = "Slots load nahi ho paaye. Apps Script deployment, access permissions aur JSON API check karein.";
+    slotMessage.textContent = "Slots load nahi ho paaye. Kripya check karein ki Google Sheet 'Anyone with the link can view' par set ho.";
   }
 }
 
