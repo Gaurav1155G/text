@@ -470,23 +470,28 @@ document.getElementById("sendWhatsApp").addEventListener("click",function(){
   const d=getDetails();
 
   const message =
-`🏆 *DJ ESPORTS 2017 – TEAM BOOKING*
+`*DJ ESPORTS 2017*
+*OFFICIAL TEAM REGISTRATION*
 
-*Team:* ${d.team}
-*Captain:* ${d.phone}
+━━━━━━━━━━━━━━━━━━
+*01 | TEAM DETAILS*
+Team Name: ${d.team}
+Captain Contact: ${d.phone}
 
-*Players:*
-1. ${d.players[0]} (IGL)
-2. ${d.players[1]}
-3. ${d.players[2]}
-4. ${d.players[3]}
+*02 | SQUAD MEMBERS*
+Player 1 (IGL): ${d.players[0]}
+Player 2: ${d.players[1]}
+Player 3: ${d.players[2]}
+Player 4: ${d.players[3]}
 
-*Payment:* Completed (as declared)
-*Screenshot:* Attached
+*03 | PAYMENT CONFIRMATION*
+Payment Declaration: Completed
+Payment Proof: Attached
 
-Please verify the payment and confirm our slot number.
+━━━━━━━━━━━━━━━━━━
+Please review our registration and confirm the team slot after payment verification.
 
-Thank you!`;
+*Thank You | DJ ESPORTS 2017*`;
 
   whatsappUrl =
     "https://wa.me/"+ADMIN_WHATSAPP+
