@@ -3,655 +3,643 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f5f8fc">
-<title>DJ ESPORTS 2017 | Tournament Registration</title>
+<meta name="theme-color" content="#0b2c59">
+<title>DJ ESPORTS 2017 | Official Access Gateway</title>
+<link rel="icon" type="image/png" href="https://pvtbro.carrd.co/assets/images/image02.jpg?v=a95da8b9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --green:#176b4b;
-  --dark:#124b37;
-  --bg:#f4f6f8;
-  --text:#17212b;
-  --muted:#687582;
-  --border:#e1e6eb;
-  --white:#fff;
+:root {
+  --navy: #0b2c59;
+  --navy-dark: #071e3d;
+  --navy-light: #e8eff8;
+  --saffron: #ff6b00;
+  --green: #137333;
+  --green-bg: #e6f4ea;
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --text: #1e293b;
+  --muted: #475569;
+  --border: #cbd5e1;
+  --border-light: #e2e8f0;
+  --error-bg: #fef2f2;
+  --error-border: #f87171;
+  --error-text: #991b1b;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh;padding:28px 14px 40px}
-.container{max-width:520px;margin:0 auto}
-.header{text-align:left;padding:8px 2px 22px;position:relative}
-.header-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
-.header-title-row h1{min-width:0}
-.check-slot-top{flex-shrink:0;min-height:36px;padding:0 11px;border:1px solid #176b4b;border-radius:8px;background:#fff;color:#176b4b;font-size:10px;font-weight:850;letter-spacing:.2px;cursor:pointer;white-space:nowrap}
-.check-slot-top:hover{background:#eaf4ee}
-.logo{width:46px;height:46px;border-radius:12px;background:#e7f1ec;display:grid;place-items:center;color:var(--green);font-size:23px;margin:0 0 15px}
-.tag{display:inline-block;background:#eaf2ee;color:var(--dark);font-size:10px;font-weight:800;padding:6px 10px;border-radius:5px;letter-spacing:.7px;margin-bottom:10px}
-.header h1{font-size:25px;font-weight:800;letter-spacing:-.6px;color:#14251e}
-.header p{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.6}
-.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 20px;box-shadow:0 5px 22px rgba(20,35,50,.045)}
-.progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px;gap:5px}
-.progress-item{flex:1;text-align:center;font-size:10px;color:#89939d;font-weight:700}
-.progress-item span{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 6px;border-radius:50%;background:#edf0f2;color:#687582;font-size:11px}
-.progress-item.active{color:var(--green)}
-.progress-item.active span,.progress-item.done span{background:#e5f1eb;color:var(--green)}
-.progress-item.done{color:var(--green)}
-.progress-line{height:1px;flex:.45;background:#e2e7eb;margin-top:-17px}
-.screen{display:none;animation:fade .2s ease}
-.screen.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.section-title{font-size:19px;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
-.section-desc{color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:20px}
-.slots-box{padding:14px;background:#f8faf9;border:1px solid var(--border);border-radius:10px;margin-bottom:22px}
-.slots-heading{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:750;margin-bottom:12px}
-.slots-heading span{color:var(--green)}
-.slots-grid{display:grid;grid-template-columns:repeat(25,minmax(0,1fr));gap:4px}
-.slot-bar{height:8px;border-radius:2px;background:#7eb49a}
-.slots-note{font-size:10px;color:var(--muted);margin-top:9px}
-.field{margin-bottom:16px}
-label{display:block;font-size:11px;font-weight:750;color:#394653;margin-bottom:7px;letter-spacing:.2px}
-input{width:100%;height:46px;border:1px solid #dce2e7;background:#fff;border-radius:8px;padding:0 12px;font-size:13px;outline:none;color:var(--text);transition:border-color .2s,box-shadow .2s}
-input:focus{border-color:#4b9272;box-shadow:0 0 0 3px rgba(23,107,75,.09)}
-input::placeholder{color:#a0aab3}
-.players{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.player{position:relative}
-.player input{padding-left:39px}
-.player b{position:absolute;left:12px;top:16px;color:var(--green);font-size:11px}
-.info-box{padding:12px;background:#f7f9fa;border:1px solid #e8edf0;border-radius:8px;color:#62707c;font-size:11px;line-height:1.7;margin:17px 0}
-.btn{width:100%;min-height:48px;border:1px solid var(--green);border-radius:8px;background:var(--green);color:#fff;font-size:13px;font-weight:800;cursor:pointer;transition:background .2s,transform .15s}
-.btn:hover{background:var(--dark)}
-.btn:active{transform:scale(.99)}
-.btn:disabled{background:#aab8b1;border-color:#aab8b1;cursor:not-allowed}
-.btn-back{background:#fff;color:#43515d;border:1px solid #dce2e7;box-shadow:none;margin-top:9px}
-.btn-back:hover{background:#f6f8f9;color:#26343f}
-.payment-card{background:#fafbfc;border:1px solid var(--border);border-radius:10px;padding:18px 12px;text-align:center}
-.payment-icon{font-size:25px;margin-bottom:8px}
-.payment-card h3{font-size:16px;margin-bottom:5px}
-.payment-card p{color:var(--muted);font-size:11px;line-height:1.7}
-.qr-wrapper{display:inline-block;padding:9px;background:#fff;border:1px solid var(--border);border-radius:9px;margin:14px 0 8px}
-.qr-wrapper img{display:block;width:205px;height:205px;object-fit:contain}
-.qr-instruction{font-size:11px;color:#53616d;line-height:1.7;margin-top:8px}
-.warning{background:#fffaf0;border:1px solid #f0e5c9;border-radius:8px;padding:11px;font-size:10px;color:#82621e;text-align:left;line-height:1.7;margin-top:13px}
-.payment-check{display:flex;align-items:flex-start;gap:10px;background:#f4f8f5;border:1px solid #dce9e0;padding:13px;border-radius:9px;margin:16px 0;text-align:left;cursor:pointer}
-.payment-check input{width:19px;height:19px;min-width:19px;accent-color:var(--green);margin-top:1px}
-.payment-check strong{display:block;font-size:12px;color:#245b42;margin-bottom:4px}
-.payment-check small{display:block;color:#687b70;font-size:10px;line-height:1.6}
-.status{text-align:center;font-size:11px;color:#86651f;background:#fff8e9;border:1px solid #f1e6cc;border-radius:8px;padding:10px;margin-bottom:13px}
-.status.ready{color:#176b4b;background:#edf6f0;border-color:#d9eade}
-.summary{border:1px solid var(--border);border-radius:9px;overflow:hidden;margin:17px 0}
-.summary-head{background:#f6f8f9;padding:12px;font-size:11px;font-weight:850}
-.summary-row{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;border-top:1px solid var(--border);font-size:11px}
-.summary-row span:first-child{color:var(--muted)}
-.summary-row strong{text-align:right;word-break:break-word}
-.slot-list{display:grid;gap:9px;margin:16px 0}
-.slot-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 12px;border:1px solid var(--border);border-radius:9px;background:#fff}
-.slot-left{min-width:0}
-.slot-number{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.5px}
-.slot-team{font-size:13px;font-weight:800;margin-top:4px;overflow-wrap:anywhere}
-.slot-state{flex-shrink:0;font-size:9px;font-weight:850;letter-spacing:.3px;padding:7px 8px;border-radius:6px;background:#edf6f0;color:#176b4b}
-.slot-state.booked{background:#fff2e8;color:#a34b12}
-.slot-message{font-size:11px;line-height:1.7;color:var(--muted);padding:11px;background:#f7f9fa;border-radius:8px}
-.footer{text-align:center;color:#89949e;font-size:10px;margin-top:16px;line-height:1.7}
-.modal-overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(20,32,28,.55);backdrop-filter:blur(3px)}
-.modal-overlay.active{display:flex}
-.modal{width:100%;max-width:370px;background:#fff;border:1px solid var(--border);padding:23px 19px;border-radius:14px;text-align:center;box-shadow:0 15px 50px rgba(0,0,0,.15)}
-.modal-icon{width:54px;height:54px;border-radius:50%;background:#eaf4ee;display:grid;place-items:center;color:var(--green);font-size:26px;margin:0 auto 13px}
-.modal h2{font-size:19px;margin-bottom:8px}
-.modal p{font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:16px}
-@media(max-width:380px){
-  body{padding:18px 10px 30px}
-  .header-title-row{gap:6px}
-  .header-title-row h1{font-size:20px}
-  .check-slot-top{font-size:9px;padding:0 8px;min-height:34px}
-  .card{padding:17px 13px}
-  .header h1{font-size:23px}
-  .qr-wrapper img{width:185px;height:185px}
-  .slots-grid{gap:2px}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP GOVERNMENT STRIP */
+.tricolor-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b00 0%, #ff6b00 33.3%, #ffffff 33.3%, #ffffff 66.6%, #138808 66.6%, #138808 100%);
+}
+
+.gov-utility-bar {
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border-light);
+  padding: 6px 14px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.gov-utility-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gov-utility-inner span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+/* OFFICIAL HEADER */
+.gov-header {
+  background: var(--navy);
+  color: #ffffff;
+  padding: 16px 14px;
+  border-bottom: 3px solid var(--saffron);
+  box-shadow: 0 2px 8px rgba(11, 44, 89, 0.15);
+}
+
+.gov-header-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emblem-box {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #060913;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 2px solid #a855f7;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.45);
+  overflow: hidden;
+}
+
+.emblem-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gov-sub {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #cbd5e1;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.gov-header h1 {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.gov-portal-desc {
+  font-size: 11.5px;
+  color: #e2e8f0;
+  margin-top: 2px;
+}
+
+.security-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+/* NOTICE BAR */
+.notice-strip {
+  background: #fff8eb;
+  border-bottom: 1px solid #fde68a;
+  padding: 8px 14px;
+  font-size: 11.5px;
+  color: #92400e;
+}
+
+.notice-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notice-badge {
+  background: #d97706;
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* MAIN CONTAINER */
+.container {
+  max-width: 520px;
+  width: 100%;
+  margin: 28px auto 36px;
+  padding: 0 14px;
+  flex: 1;
+}
+
+/* CARD PANEL */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.card-banner {
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-banner h2 {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-code {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #e2e8f0;
+  padding: 3px 7px;
+  border-radius: 3px;
+}
+
+.card-body {
+  padding: 22px 18px;
+}
+
+.section-desc {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.sub-section-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--navy);
+  background: var(--navy-light);
+  padding: 7px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 7px;
+}
+
+label .req {
+  color: #dc2626;
+}
+
+.code-input-wrap {
+  position: relative;
+}
+
+.code-input-wrap input {
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid #94a3b8;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 0 14px 0 42px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--navy);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.code-input-wrap input::placeholder {
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.code-input-wrap input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(11, 44, 89, 0.12);
+}
+
+.code-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 36px;
+  background: #f1f5f9;
+  border-right: 1px solid #cbd5e1;
+  border-radius: 4px 0 0 4px;
+  display: grid;
+  place-items: center;
+  color: var(--navy);
+}
+
+/* ALERT MESSAGES */
+.status-box {
+  display: none;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.status-box.error {
+  display: flex;
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+}
+
+.status-box.success {
+  display: flex;
+  background: var(--green-bg);
+  border: 1px solid #86efac;
+  color: var(--green);
+}
+
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  color: #334155;
+  font-size: 11.5px;
+  line-height: 1.6;
+  margin: 16px 0;
+}
+
+.info-box svg {
+  flex-shrink: 0;
+  color: var(--navy);
+  margin-top: 2px;
+}
+
+/* BUTTONS */
+.btn {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--navy);
+  border-radius: 4px;
+  background: var(--navy);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--navy-dark);
+}
+
+.btn:disabled {
+  background: #94a3b8;
+  border-color: #94a3b8;
+  cursor: wait;
+}
+
+/* HIDDEN PORTAL FRAME (MASKS REAL URL FROM PUBLIC) */
+#maskedPortalContainer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background: #f1f5f9;
+}
+
+#maskedPortalContainer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* FOOTER */
+.gov-footer {
+  background: #0f172a;
+  color: #94a3b8;
+  text-align: center;
+  padding: 18px 14px;
+  font-size: 11px;
+  line-height: 1.7;
+  border-top: 3px solid var(--navy);
+}
+
+.gov-footer strong {
+  color: #ffffff;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- GATEWAY UI -->
+<div id="gatewayWrapper" style="display:flex; flex-direction:column; min-height:100vh;">
 
-<header class="header">
-  <div class="logo">🏆</div>
-  <div class="tag">25 TEAM SLOTS · 4 PLAYERS</div>
-  <div class="header-title-row">
-    <h1>DJ ESPORTS 2017</h1>
-    <button class="check-slot-top" id="openSlots" type="button">☷ CHECK SLOT</button>
+  <div class="tricolor-bar"></div>
+
+  <div class="gov-utility-bar">
+    <div class="gov-utility-inner">
+      <span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0b2c59" stroke-width="2.3">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        SECURE ACCESS GATEWAY
+      </span>
+      <span>AUTH LEVEL: VERIFIED</span>
+    </div>
   </div>
-  <p>Register your squad and secure your tournament place.</p>
-</header>
 
-<main class="card">
+  <header class="gov-header">
+    <div class="gov-header-inner">
+      <div class="brand-group">
+        <div class="emblem-box">
+          <img src="https://pvtbro.carrd.co/assets/images/image02.jpg?v=a95da8b9" alt="DJ eSports Official Logo">
+        </div>
+        <div>
+          <div class="gov-sub">ESPORTS TOURNAMENT AUTHORITY</div>
+          <h1>DJ ESPORTS 2017</h1>
+          <div class="gov-portal-desc">Authorized Booking Code Verification System</div>
+        </div>
+      </div>
 
-<div class="progress">
-  <div class="progress-item active" id="step1">
-    <span>1</span>Details
+      <div class="security-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        PROTECTED
+      </div>
+    </div>
+  </header>
+
+  <div class="notice-strip">
+    <div class="notice-inner">
+      <span class="notice-badge">MANDATORY</span>
+      <span>Valid Booking Code issued by Tournament Admin is required to access the slot registration form.</span>
+    </div>
   </div>
-  <div class="progress-line"></div>
-  <div class="progress-item" id="step2">
-    <span>2</span>Payment
+
+  <div class="container">
+    <main class="card">
+      <div class="card-banner">
+        <h2>Booking Code Authentication</h2>
+        <span class="form-code">GATE-DJ25</span>
+      </div>
+
+      <div class="card-body">
+        <p class="section-desc">
+          Enter your official <strong>Booking Access Code</strong> below. The system will verify your code directly from the live official registry before unlocking the portal.
+        </p>
+
+        <form id="accessForm">
+          <div class="sub-section-title">Access Credentials Verification</div>
+
+          <div class="field">
+            <label for="bookingCode">Enter Official Booking Code <span class="req">*</span></label>
+            <div class="code-input-wrap">
+              <div class="code-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                </svg>
+              </div>
+              <input id="bookingCode" type="text" placeholder="e.g. DJ2026 or VIP01" autocomplete="off" required>
+            </div>
+          </div>
+
+          <div id="statusBox" class="status-box"></div>
+
+          <div class="info-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span><strong>Note:</strong> Do not share your booking access code with unauthorized teams. Codes are synced live with the tournament database.</span>
+          </div>
+
+          <button class="btn" id="verifyBtn" type="submit">
+            <span id="btnText">VERIFY & UNLOCK PORTAL</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </main>
   </div>
-  <div class="progress-line"></div>
-  <div class="progress-item" id="step3">
-    <span>3</span>Booking
-  </div>
-</div>
 
-<!-- SCREEN 1 -->
-
-<section class="screen active" id="detailsScreen">
-
-<h2 class="section-title">Team Registration</h2>
-<p class="section-desc">
-Enter your complete squad information to continue.
-</p>
-
-<div class="slots-box">
-  <div class="slots-heading">
-    <strong>🏆 Tournament Capacity</strong>
-    <span>25 Slots</span>
-  </div>
-  <div class="slots-grid" id="slotsGrid"></div>
-  <div class="slots-note">25 Teams · 4 Players Per Team</div>
-</div>
-
-<form id="registrationForm">
-
-<div class="field">
-  <label>TEAM NAME *</label>
-  <input id="teamName" placeholder="Enter your squad name" required>
-</div>
-
-<div class="field">
-  <label>CAPTAIN WHATSAPP NUMBER *</label>
-  <input id="whatsappNumber" type="tel" autocomplete="tel"
-    inputmode="numeric" maxlength="10"
-    pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
-</div>
-
-<label style="margin-bottom:11px">SQUAD ROSTER *</label>
-
-<div class="players">
-  <div class="player">
-    <b>01</b>
-    <input id="player1" placeholder="Player 1 (IGL)" required>
-  </div>
-  <div class="player">
-    <b>02</b>
-    <input id="player2" placeholder="Player 2" required>
-  </div>
-  <div class="player">
-    <b>03</b>
-    <input id="player3" placeholder="Player 3" required>
-  </div>
-  <div class="player">
-    <b>04</b>
-    <input id="player4" placeholder="Player 4" required>
-  </div>
-</div>
-
-<div class="info-box">
-  ℹ️ Please check all player names and contact details carefully before proceeding.
-</div>
-
-<button class="btn" type="submit">
-  CONTINUE TO PAYMENT →
-</button>
-
-</form>
-</section>
-
-<!-- SCREEN 2 -->
-
-<section class="screen" id="paymentScreen">
-
-<h2 class="section-title">Entry Fee Payment</h2>
-<p class="section-desc">
-Complete your entry fee payment using the QR code below.
-</p>
-
-<div class="payment-card">
-
-<div class="payment-icon">💳</div>
-<h3>Scan & Pay</h3>
-<p>Use PhonePe, Google Pay, Paytm or any UPI app.</p>
-
-<div class="qr-wrapper">
-<img
-src="https://pvtbro.carrd.co/assets/images/image01.jpg?v=efe9faee"
-alt="Tournament Payment QR Code">
-</div>
-
-<div class="qr-instruction">
-Open your UPI application and scan this QR code to make the payment.
-</div>
-
-<div class="warning">
-⚠️ Make sure you have paid the correct entry fee. Keep your transaction screenshot ready. Never share your UPI PIN or OTP.
-</div>
+  <footer class="gov-footer">
+    <strong>DJ ESPORTS 2017 — TOURNAMENT MANAGEMENT DESK</strong><br>
+    Official Online Slot Booking & Verification Portal · All Rights Reserved
+  </footer>
 
 </div>
 
-<label class="payment-check">
-<input type="checkbox" id="paymentDone">
-<span>
-<strong>Yes, I have completed my payment</strong>
-<small>I confirm that I have scanned the QR code and successfully made the entry fee payment.</small>
-</span>
-</label>
-
-<div class="status" id="paymentStatus">
-Please confirm your payment to unlock booking.
-</div>
-
-<button class="btn" id="continueBooking" disabled>
-BOOK MY TEAM SLOT →
-</button>
-
-<button class="btn btn-back" id="backDetails" type="button">
-← BACK TO TEAM DETAILS
-</button>
-
-</section>
-
-<!-- SCREEN 3 -->
-
-<section class="screen" id="bookingScreen">
-
-<h2 class="section-title">Confirm Your Booking</h2>
-<p class="section-desc">
-Review your squad information before sending your booking request.
-</p>
-
-<div class="summary">
-  <div class="summary-head">🏆 TEAM DETAILS</div>
-  <div class="summary-row">
-    <span>Team Name</span>
-    <strong id="summaryTeam"></strong>
-  </div>
-  <div class="summary-row">
-    <span>Captain Number</span>
-    <strong id="summaryPhone"></strong>
-  </div>
-  <div class="summary-row">
-    <span>Player 1 (IGL)</span>
-    <strong id="summaryP1"></strong>
-  </div>
-  <div class="summary-row">
-    <span>Player 2</span>
-    <strong id="summaryP2"></strong>
-  </div>
-  <div class="summary-row">
-    <span>Player 3</span>
-    <strong id="summaryP3"></strong>
-  </div>
-  <div class="summary-row">
-    <span>Player 4</span>
-    <strong id="summaryP4"></strong>
-  </div>
-  <div class="summary-row">
-    <span>Payment Declaration</span>
-    <strong style="color:#078550">✓ Marked as Paid</strong>
-  </div>
-</div>
-
-<div class="info-box">
-  📱 On clicking the button, WhatsApp will open with your complete registration details. Please attach your payment screenshot before sending.
-  <br><br>
-  Your slot is not confirmed until the admin verifies payment and provides an official slot number.
-</div>
-
-<button class="btn" id="sendWhatsApp">
-  SEND BOOKING ON WHATSAPP →
-</button>
-
-<button class="btn btn-back" id="backPayment" type="button">
-  ← BACK TO PAYMENT
-</button>
-
-</section>
-
-</main>
-
-<section class="card screen" id="slotsScreen" style="margin-top:14px">
-  <h2 class="section-title">Tournament Slot Status</h2>
-  <p class="section-desc">Check the latest team slot availability.</p>
-  <div class="slots-heading">
-    <strong>🏆 25 TEAM SLOTS</strong>
-    <span id="slotCount">Loading...</span>
-  </div>
-  <div class="slot-list" id="slotList"></div>
-  <div class="slot-message" id="slotMessage">Connecting to the tournament sheet...</div>
-  <button class="btn" id="refreshSlots" type="button" style="margin-top:14px">↻ REFRESH SLOTS</button>
-  <button class="btn btn-back" id="backFromSlots" type="button">← BACK TO REGISTRATION</button>
-</section>
-
-<footer class="footer">
-DJ ESPORTS 2017<br>
-Tournament Registration Portal
-</footer>
-
-</div>
-
-<!-- SUCCESS MODAL -->
-
-<div class="modal-overlay" id="successModal">
-<div class="modal">
-  <div class="modal-icon">✓</div>
-  <h2>WhatsApp Ready!</h2>
-  <p>
-    Your booking details are ready. WhatsApp will open with your registration message.
-    <br><br>
-    Please attach your payment screenshot and send the message to the admin.
-  </p>
-  <button class="btn" id="openWhatsApp">
-    BOOK NOW →
-  </button>
-  <button class="btn btn-back" id="closeModal">
-    GO BACK
-  </button>
-</div>
-</div>
+<!-- MASKED PORTAL CONTAINER (Keeps URL Hidden) -->
+<div id="maskedPortalContainer"></div>
 
 <script>
+// 1. GOOGLE SHEET CSV LINK (No Google Script Needed)
+// Aapki existing Google Sheet se direct CSV read karega
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1kLeQRiNJh1mOtOEUwmZpTzst-7o4OTqmITFf5GtEsVg/export?format=csv";
 
-const ADMIN_WHATSAPP = "919813565729";
+// 2. ENCODED TARGET URL (https://djesports2017.vercel.app/)
+// Base64 encoded taaki source code mein bhi seedha link na dikhe
+const _0xTarget = "aHR0cHM6Ly9kamVzcG9ydHMyMDE3LnZlcmNlbC5hcHAv";
 
-const form = document.getElementById("registrationForm");
-const paymentCheckbox = document.getElementById("paymentDone");
-const continueBooking = document.getElementById("continueBooking");
-const paymentStatus = document.getElementById("paymentStatus");
+const accessForm = document.getElementById("accessForm");
+const bookingCodeInput = document.getElementById("bookingCode");
+const verifyBtn = document.getElementById("verifyBtn");
+const btnText = document.getElementById("btnText");
+const statusBox = document.getElementById("statusBox");
 
-let whatsappUrl = "";
-
-const screens = {
-  details:document.getElementById("detailsScreen"),
-  payment:document.getElementById("paymentScreen"),
-  booking:document.getElementById("bookingScreen"),
-  slots:document.getElementById("slotsScreen")
-};
-
-const steps = [
-  document.getElementById("step1"),
-  document.getElementById("step2"),
-  document.getElementById("step3")
-];
-
-const slotsGrid = document.getElementById("slotsGrid");
-
-for(let i=1;i<=25;i++){
-  const bar=document.createElement("div");
-  bar.className="slot-bar";
-  bar.title="Slot "+i;
-  slotsGrid.appendChild(bar);
+function showMessage(type, text) {
+  statusBox.className = "status-box " + type;
+  statusBox.textContent = text;
 }
 
-function showScreen(name){
+// CSV Parser: Checks 'Code' / 'Booking Code' column OR all cells if only codes are listed
+function extractValidCodes(csvText) {
+  const lines = csvText.split(/\r?\n/).filter(line => line.trim() !== "");
+  if (lines.length === 0) return [];
 
-  Object.values(screens).forEach(screen=>{
-    screen.classList.remove("active");
-  });
+  const validCodes = new Set();
+  const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, "").toLowerCase());
 
-  screens[name].classList.add("active");
+  // Check if there is a specific column named "code" or "booking code"
+  const codeColIndex = headers.findIndex(h => h === "code" || h === "booking code" || h === "access code" || h === "booking_code");
 
-  const isSlots = name==="slots";
-  document.querySelector(".progress").style.display = isSlots ? "none" : "flex";
-  document.querySelector("main.card").style.display = isSlots ? "none" : "block";
-
-  if(!isSlots){
-    const current = name==="details" ? 0 : name==="payment" ? 1 : 2;
-    steps.forEach((step,index)=>{
-      step.classList.toggle("active",index===current);
-      step.classList.toggle("done",index<current);
-    });
+  if (codeColIndex !== -1) {
+    for (let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(",");
+      if (cols[codeColIndex]) {
+        const cleanCode = cols[codeColIndex].trim().replace(/^"|"$/g, "").toUpperCase();
+        if (cleanCode) validCodes.add(cleanCode);
+      }
+    }
+  } else {
+    // Fallback: Check Column C (index 2) or Column A if it's a dedicated codes sheet
+    for (let i = 0; i < lines.length; i++) {
+      const cols = lines[i].split(",");
+      cols.forEach(cell => {
+        const cleanVal = cell.trim().replace(/^"|"$/g, "").toUpperCase();
+        if (cleanVal && cleanVal !== "SLOT" && cleanVal !== "TEAM NAME" && cleanVal !== "CODE") {
+          validCodes.add(cleanVal);
+        }
+      });
+    }
   }
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  return Array.from(validCodes);
 }
 
-function getDetails(){
+// Unlock Portal Without Showing Target URL in Address Bar
+function unlockMaskedPortal() {
+  const realUrl = atob(_0xTarget);
+  const portalContainer = document.getElementById("maskedPortalContainer");
+  const gatewayWrapper = document.getElementById("gatewayWrapper");
 
-  return {
-    team:document.getElementById("teamName").value.trim(),
-    phone:document.getElementById("whatsappNumber").value.trim(),
-    players:[
-      document.getElementById("player1").value.trim(),
-      document.getElementById("player2").value.trim(),
-      document.getElementById("player3").value.trim(),
-      document.getElementById("player4").value.trim()
-    ]
-  };
+  const iframe = document.createElement("iframe");
+  iframe.src = realUrl;
+  iframe.setAttribute("allow", "clipboard-read; clipboard-write; fullscreen");
+
+  portalContainer.innerHTML = "";
+  portalContainer.appendChild(iframe);
+
+  gatewayWrapper.style.display = "none";
+  portalContainer.style.display = "block";
+  document.title = "DJ ESPORTS 2017 | Official Slot Registration Portal";
 }
 
-// STEP 1 -> STEP 2
-
-form.addEventListener("submit",function(e){
-
+accessForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  if(!form.reportValidity()) return;
-
-  const details=getDetails();
-
-  if(!/^[0-9]{10}$/.test(details.phone)){
-    alert("Please enter a valid 10-digit WhatsApp number.");
+  const enteredCode = bookingCodeInput.value.trim().toUpperCase();
+  if (!enteredCode) {
+    showMessage("error", "Please enter a valid Booking Code.");
     return;
   }
 
-  showScreen("payment");
+  verifyBtn.disabled = true;
+  btnText.textContent = "VERIFYING FROM OFFICIAL SHEET...";
+  statusBox.className = "status-box";
 
-});
+  try {
+    const response = await fetch(SHEET_CSV_URL + "&t=" + Date.now(), { cache: "no-store" });
+    if (!response.ok) throw new Error("Network error");
 
-// PAYMENT CHECKBOX
-
-paymentCheckbox.addEventListener("change",function(){
-
-  const paid=this.checked;
-
-  continueBooking.disabled=!paid;
-
-  paymentStatus.classList.toggle("ready",paid);
-
-  paymentStatus.textContent=paid
-    ? "✓ Payment declaration completed. You can continue."
-    : "Please confirm your payment to unlock booking.";
-
-});
-
-// STEP 2 -> STEP 3
-
-continueBooking.addEventListener("click",function(){
-
-  if(!paymentCheckbox.checked){
-    alert("Please confirm your payment first.");
-    return;
-  }
-
-  const d=getDetails();
-
-  document.getElementById("summaryTeam").textContent=d.team;
-  document.getElementById("summaryPhone").textContent=d.phone;
-  document.getElementById("summaryP1").textContent=d.players[0];
-  document.getElementById("summaryP2").textContent=d.players[1];
-  document.getElementById("summaryP3").textContent=d.players[2];
-  document.getElementById("summaryP4").textContent=d.players[3];
-
-  showScreen("booking");
-
-});
-
-// BACK BUTTONS
-
-document.getElementById("backDetails").addEventListener("click",()=>{
-  showScreen("details");
-});
-
-document.getElementById("backPayment").addEventListener("click",()=>{
-  showScreen("payment");
-});
-
-// WHATSAPP MESSAGE
-
-document.getElementById("sendWhatsApp").addEventListener("click",function(){
-
-  if(!paymentCheckbox.checked){
-    alert("Please confirm payment first.");
-    showScreen("payment");
-    return;
-  }
-
-  const d=getDetails();
-
-  const message =
-`*DJ ESPORTS 2017*
-*OFFICIAL TEAM REGISTRATION*
-
-━━━━━━━━━━━━━━━━━━
-*01 | TEAM DETAILS*
-Team Name: ${d.team}
-Captain Contact: ${d.phone}
-
-*02 | SQUAD MEMBERS*
-Player 1 (IGL): ${d.players[0]}
-Player 2: ${d.players[1]}
-Player 3: ${d.players[2]}
-Player 4: ${d.players[3]}
-
-*03 | PAYMENT CONFIRMATION*
-Payment Declaration: Completed
-Payment Proof: Attached
-
-━━━━━━━━━━━━━━━━━━
-Please review our registration and confirm the team slot after payment verification.
-
-*Thank You | DJ ESPORTS 2017*`;
-
-  whatsappUrl =
-    "https://wa.me/"+ADMIN_WHATSAPP+
-    "?text="+encodeURIComponent(message);
-
-  document.getElementById("successModal").classList.add("active");
-
-});
-
-// BOOK NOW
-
-document.getElementById("openWhatsApp").addEventListener("click",function(){
-
-  if(!whatsappUrl) return;
-
-  window.location.href=whatsappUrl;
-
-});
-
-document.getElementById("closeModal").addEventListener("click",()=>{
-  document.getElementById("successModal").classList.remove("active");
-});
-
-
-// GOOGLE SHEET PUBLIC CSV URL (Automatically reads data from your Sheet)
-const SLOT_API_URL = "https://docs.google.com/spreadsheets/d/1yU_X1vsQuCpJ0RMzw9V6PU83NGSzobf1yg_qE3Im6K8/export?format=csv";
-
-const slotList = document.getElementById("slotList");
-const slotCount = document.getElementById("slotCount");
-const slotMessage = document.getElementById("slotMessage");
-
-function renderSlots(items){
-  const byNumber = new Map();
-  (Array.isArray(items) ? items : []).forEach(item => {
-    const n = Number(item.slot ?? item.Slot);
-    if(n >= 1 && n <= 25){
-      byNumber.set(n, String(item.teamName ?? item.team ?? item["Team Name"] ?? "").trim());
-    }
-  });
-
-  slotList.innerHTML = "";
-  let booked = 0;
-
-  for(let n=1; n<=25; n++){
-    const team = byNumber.get(n) || "";
-    const isBooked = Boolean(team);
-    if(isBooked) booked++;
-
-    const row = document.createElement("div");
-    row.className = "slot-row";
-
-    const left = document.createElement("div");
-    left.className = "slot-left";
-
-    const number = document.createElement("div");
-    number.className = "slot-number";
-    number.textContent = "SLOT " + String(n).padStart(2,"0");
-
-    const name = document.createElement("div");
-    name.className = "slot-team";
-    name.textContent = team || "No team assigned";
-
-    const state = document.createElement("span");
-    state.className = "slot-state" + (isBooked ? " booked" : "");
-    state.textContent = isBooked ? "SLOT BOOKED" : "AVAILABLE";
-
-    left.append(number,name);
-    row.append(left,state);
-    slotList.appendChild(row);
-  }
-
-  slotCount.textContent = booked + " / 25 BOOKED";
-  slotMessage.textContent = "Slot list updated. Final booking is confirmed only by the tournament admin.";
-}
-
-// Simple CSV parser for Google Sheet export
-function parseCSV(text) {
-  const lines = text.split("\n");
-  const result = [];
-  if (lines.length === 0) return result;
-  
-  const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
-  
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const currentline = lines[i].split(",");
-    const obj = {};
-    for (let j = 0; j < headers.length; j++) {
-      obj[headers[j]] = currentline[j] ? currentline[j].trim().replace(/^"|"$/g, '') : "";
-    }
-    result.push({
-      slot: obj["Slot"] || i,
-      teamName: obj["Team Name"] || ""
-    });
-  }
-  return result;
-}
-
-async function loadSlots(){
-  slotMessage.textContent = "Connecting to Google Sheets...";
-  slotCount.textContent = "Loading...";
-
-  try{
-    const response = await fetch(SLOT_API_URL, {cache:"no-store"});
-    if(!response.ok) throw new Error("HTTP " + response.status);
     const csvText = await response.text();
-    const slotsData = parseCSV(csvText);
-    renderSlots(slotsData);
-  }catch(error){
-    slotList.innerHTML = "";
-    slotCount.textContent = "Connection error";
-    slotMessage.textContent = "Slots load nahi ho paaye. Kripya check karein ki Google Sheet 'Anyone with the link can view' par set ho.";
+    const validCodes = extractValidCodes(csvText);
+
+    if (validCodes.includes(enteredCode)) {
+      showMessage("success", "✓ Booking Code Verified! Unlocking registration portal...");
+      setTimeout(() => {
+        unlockMaskedPortal();
+      }, 600);
+    } else {
+      showMessage("error", "✕ Invalid or Expired Booking Code. Please contact Tournament Admin.");
+      verifyBtn.disabled = false;
+      btnText.textContent = "VERIFY & UNLOCK PORTAL";
+    }
+  } catch (err) {
+    showMessage("error", "Unable to connect to Google Sheet. Ensure the sheet is set to 'Anyone with the link can view'.");
+    verifyBtn.disabled = false;
+    btnText.textContent = "VERIFY & UNLOCK PORTAL";
   }
-}
-
-document.getElementById("openSlots").addEventListener("click",()=>{
-  showScreen("slots");
-  loadSlots();
-});
-document.getElementById("refreshSlots").addEventListener("click",loadSlots);
-document.getElementById("backFromSlots").addEventListener("click",()=>{
-  showScreen("details");
 });
 
+// Basic right-click & inspect protection to keep link private
+document.addEventListener("contextmenu", e => e.preventDefault());
 </script>
 
 </body>
