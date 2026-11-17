@@ -19,7 +19,11 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}
 body{background:var(--bg);color:var(--text);min-height:100vh;padding:28px 14px 40px}
 .container{max-width:520px;margin:0 auto}
-.header{text-align:left;padding:8px 2px 22px}
+.header{text-align:left;padding:8px 2px 22px;position:relative}
+.header-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+.header-title-row h1{min-width:0}
+.check-slot-top{flex-shrink:0;min-height:36px;padding:0 11px;border:1px solid #176b4b;border-radius:8px;background:#fff;color:#176b4b;font-size:10px;font-weight:850;letter-spacing:.2px;cursor:pointer;white-space:nowrap}
+.check-slot-top:hover{background:#eaf4ee}
 .logo{width:46px;height:46px;border-radius:12px;background:#e7f1ec;display:grid;place-items:center;color:var(--green);font-size:23px;margin:0 0 15px}
 .tag{display:inline-block;background:#eaf2ee;color:var(--dark);font-size:10px;font-weight:800;padding:6px 10px;border-radius:5px;letter-spacing:.7px;margin-bottom:10px}
 .header h1{font-size:25px;font-weight:800;letter-spacing:-.6px;color:#14251e}
@@ -78,6 +82,14 @@ input::placeholder{color:#a0aab3}
 .summary-row{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;border-top:1px solid var(--border);font-size:11px}
 .summary-row span:first-child{color:var(--muted)}
 .summary-row strong{text-align:right;word-break:break-word}
+.slot-list{display:grid;gap:9px;margin:16px 0}
+.slot-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 12px;border:1px solid var(--border);border-radius:9px;background:#fff}
+.slot-left{min-width:0}
+.slot-number{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.5px}
+.slot-team{font-size:13px;font-weight:800;margin-top:4px;overflow-wrap:anywhere}
+.slot-state{flex-shrink:0;font-size:9px;font-weight:850;letter-spacing:.3px;padding:7px 8px;border-radius:6px;background:#edf6f0;color:#176b4b}
+.slot-state.booked{background:#fff2e8;color:#a34b12}
+.slot-message{font-size:11px;line-height:1.7;color:var(--muted);padding:11px;background:#f7f9fa;border-radius:8px}
 .footer{text-align:center;color:#89949e;font-size:10px;margin-top:16px;line-height:1.7}
 .modal-overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(20,32,28,.55);backdrop-filter:blur(3px)}
 .modal-overlay.active{display:flex}
@@ -87,6 +99,9 @@ input::placeholder{color:#a0aab3}
 .modal p{font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:16px}
 @media(max-width:380px){
   body{padding:18px 10px 30px}
+  .header-title-row{gap:6px}
+  .header-title-row h1{font-size:20px}
+  .check-slot-top{font-size:9px;padding:0 8px;min-height:34px}
   .card{padding:17px 13px}
   .header h1{font-size:23px}
   .qr-wrapper img{width:185px;height:185px}
@@ -102,7 +117,10 @@ input::placeholder{color:#a0aab3}
 <header class="header">
   <div class="logo">🏆</div>
   <div class="tag">25 TEAM SLOTS · 4 PLAYERS</div>
-  <h1>DJ ESPORTS 2017</h1>
+  <div class="header-title-row">
+    <h1>DJ ESPORTS 2017</h1>
+    <button class="check-slot-top" id="openSlots" type="button">☷ CHECK SLOT</button>
+  </div>
   <p>Register your squad and secure your tournament place.</p>
 </header>
 
@@ -298,6 +316,19 @@ Review your squad information before sending your booking request.
 
 </main>
 
+<section class="card screen" id="slotsScreen" style="margin-top:14px">
+  <h2 class="section-title">Tournament Slot Status</h2>
+  <p class="section-desc">Check the latest team slot availability.</p>
+  <div class="slots-heading">
+    <strong>🏆 25 TEAM SLOTS</strong>
+    <span id="slotCount">Loading...</span>
+  </div>
+  <div class="slot-list" id="slotList"></div>
+  <div class="slot-message" id="slotMessage">Connecting to the tournament sheet...</div>
+  <button class="btn" id="refreshSlots" type="button" style="margin-top:14px">↻ REFRESH SLOTS</button>
+  <button class="btn btn-back" id="backFromSlots" type="button">← BACK TO REGISTRATION</button>
+</section>
+
 <footer class="footer">
 DJ ESPORTS 2017<br>
 Tournament Registration Portal
@@ -339,7 +370,8 @@ let whatsappUrl = "";
 const screens = {
   details:document.getElementById("detailsScreen"),
   payment:document.getElementById("paymentScreen"),
-  booking:document.getElementById("bookingScreen")
+  booking:document.getElementById("bookingScreen"),
+  slots:document.getElementById("slotsScreen")
 };
 
 const steps = [
@@ -365,13 +397,17 @@ function showScreen(name){
 
   screens[name].classList.add("active");
 
-  const current = name==="details" ? 0 :
-                  name==="payment" ? 1 : 2;
+  const isSlots = name==="slots";
+  document.querySelector(".progress").style.display = isSlots ? "none" : "flex";
+  document.querySelector("main.card").style.display = isSlots ? "none" : "block";
 
-  steps.forEach((step,index)=>{
-    step.classList.toggle("active",index===current);
-    step.classList.toggle("done",index<current);
-  });
+  if(!isSlots){
+    const current = name==="details" ? 0 : name==="payment" ? 1 : 2;
+    steps.forEach((step,index)=>{
+      step.classList.toggle("active",index===current);
+      step.classList.toggle("done",index<current);
+    });
+  }
 
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -513,6 +549,91 @@ document.getElementById("openWhatsApp").addEventListener("click",function(){
 
 document.getElementById("closeModal").addEventListener("click",function(){
   document.getElementById("successModal").classList.remove("active");
+});
+
+
+// CHECK SLOT: paste the deployed Apps Script Web App URL here.
+// The Apps Script endpoint should return JSON: {"slots":[{"slot":1,"teamName":"TEAM A"}, ...]}
+const SLOT_API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+const slotList = document.getElementById("slotList");
+const slotCount = document.getElementById("slotCount");
+const slotMessage = document.getElementById("slotMessage");
+
+function renderSlots(items){
+  const byNumber = new Map();
+  (Array.isArray(items) ? items : []).forEach(item => {
+    const n = Number(item.slot ?? item.Slot);
+    if(n >= 1 && n <= 25){
+      byNumber.set(n, String(item.teamName ?? item.team ?? item["Team Name"] ?? "").trim());
+    }
+  });
+
+  slotList.innerHTML = "";
+  let booked = 0;
+
+  for(let n=1; n<=25; n++){
+    const team = byNumber.get(n) || "";
+    const isBooked = Boolean(team);
+    if(isBooked) booked++;
+
+    const row = document.createElement("div");
+    row.className = "slot-row";
+
+    const left = document.createElement("div");
+    left.className = "slot-left";
+
+    const number = document.createElement("div");
+    number.className = "slot-number";
+    number.textContent = "SLOT " + String(n).padStart(2,"0");
+
+    const name = document.createElement("div");
+    name.className = "slot-team";
+    name.textContent = team || "No team assigned";
+
+    const state = document.createElement("span");
+    state.className = "slot-state" + (isBooked ? " booked" : "");
+    state.textContent = isBooked ? "SLOT BOOKED" : "AVAILABLE";
+
+    left.append(number,name);
+    row.append(left,state);
+    slotList.appendChild(row);
+  }
+
+  slotCount.textContent = booked + " / 25 BOOKED";
+  slotMessage.textContent = "Slot list updated. Final booking is confirmed only by the tournament admin.";
+}
+
+async function loadSlots(){
+  slotMessage.textContent = "Connecting to Google Sheets...";
+  slotCount.textContent = "Loading...";
+  if(!SLOT_API_URL || SLOT_API_URL.includes("PASTE_YOUR_")){
+    slotMessage.textContent = "Google Sheets connection abhi configure nahi hui. Apps Script Web App URL add karne ke baad live team names yahan dikhenge.";
+    renderSlots([]);
+    slotCount.textContent = "Not connected";
+    return;
+  }
+
+  try{
+    const response = await fetch(SLOT_API_URL + (SLOT_API_URL.includes("?") ? "&" : "?") + "action=getSlots", {cache:"no-store"});
+    if(!response.ok) throw new Error("HTTP " + response.status);
+    const data = await response.json();
+    if(!data || !Array.isArray(data.slots)) throw new Error("Invalid slot data");
+    renderSlots(data.slots);
+  }catch(error){
+    slotList.innerHTML = "";
+    slotCount.textContent = "Connection error";
+    slotMessage.textContent = "Slots load nahi ho paaye. Apps Script deployment, access permissions aur JSON API check karein.";
+  }
+}
+
+document.getElementById("openSlots").addEventListener("click",()=>{
+  showScreen("slots");
+  loadSlots();
+});
+document.getElementById("refreshSlots").addEventListener("click",loadSlots);
+document.getElementById("backFromSlots").addEventListener("click",()=>{
+  showScreen("details");
 });
 
 </script>
