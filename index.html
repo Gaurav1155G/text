@@ -470,49 +470,23 @@ document.getElementById("sendWhatsApp").addEventListener("click",function(){
   const d=getDetails();
 
   const message =
-`🏆 *DJ ESPORTS 2017 - NEW TEAM BOOKING*
-━━━━━━━━━━━━━━━━━━━━
+`🏆 *DJ ESPORTS 2017 – TEAM BOOKING*
 
-Hello Tournament Admin! 👋
+*Team:* ${d.team}
+*Captain:* ${d.phone}
 
-I want to register my team for the tournament.
+*Players:*
+1. ${d.players[0]} (IGL)
+2. ${d.players[1]}
+3. ${d.players[2]}
+4. ${d.players[3]}
 
-📋 *TEAM INFORMATION*
+*Payment:* Completed (as declared)
+*Screenshot:* Attached
 
-🏷️ Team Name: ${d.team}
-📱 Captain WhatsApp: ${d.phone}
+Please verify the payment and confirm our slot number.
 
-👥 *SQUAD ROSTER*
-
-1. Player 1 (IGL): ${d.players[0]}
-2. Player 2: ${d.players[1]}
-3. Player 3: ${d.players[2]}
-4. Player 4: ${d.players[3]}
-
-💳 *PAYMENT INFORMATION*
-
-Payment Method: UPI QR Code
-Payment Declaration: PAID (Player confirmed)
-Payment Screenshot: Will be attached in this chat.
-
-🎮 *BOOKING REQUEST*
-
-Please verify the payment and confirm my registration.
-
-Kindly share:
-
-✅ Payment verification
-✅ Official team slot number
-✅ Tournament schedule
-✅ Reporting time
-✅ Further instructions
-
-I understand that the slot will be confirmed only after admin verification.
-
-Thank you! 🙏
-
-*TEAM: ${d.team}*
-*DJ ESPORTS 2017* 🏆`;
+Thank you!`;
 
   whatsappUrl =
     "https://wa.me/"+ADMIN_WHATSAPP+
