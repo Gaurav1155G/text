@@ -8,504 +8,88 @@
 
 <style>
 :root{
-  --green:#13a66b;
-  --dark:#087c4d;
-  --bg:#f3f7f5;
-  --text:#172a22;
-  --muted:#77877e;
-  --border:#e5ece8;
+  --green:#176b4b;
+  --dark:#124b37;
+  --bg:#f4f6f8;
+  --text:#17212b;
+  --muted:#687582;
+  --border:#e1e6eb;
   --white:#fff;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-}
-
-body{
-  background:
-    radial-gradient(circle at top right,#dcf9e9,transparent 35%),
-    #f3f7f5;
-  color:var(--text);
-  min-height:100vh;
-  padding:20px 13px 35px;
-}
-
-.container{
-  max-width:480px;
-  margin:auto;
-}
-
-.header{
-  text-align:center;
-  padding:15px 0 24px;
-}
-
-.logo{
-  width:65px;
-  height:65px;
-  border-radius:21px;
-  background:linear-gradient(145deg,#20c982,#087c4d);
-  display:grid;
-  place-items:center;
-  color:white;
-  font-size:31px;
-  margin:auto auto 13px;
-  box-shadow:0 10px 25px #13a66b35;
-}
-
-.tag{
-  display:inline-block;
-  background:#e2f8ec;
-  color:#07834f;
-  font-size:10px;
-  font-weight:900;
-  padding:7px 13px;
-  border-radius:30px;
-  letter-spacing:1px;
-  margin-bottom:12px;
-}
-
-.header h1{
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:-1px;
-}
-
-.header p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:8px;
-  line-height:1.6;
-}
-
-.card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:23px;
-  padding:21px 18px;
-  box-shadow:0 12px 40px #183d2910;
-}
-
-.progress{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:24px;
-  gap:5px;
-}
-
-.progress-item{
-  flex:1;
-  text-align:center;
-  font-size:10px;
-  color:#98a59d;
-  font-weight:800;
-}
-
-.progress-item span{
-  display:grid;
-  place-items:center;
-  width:30px;
-  height:30px;
-  margin:0 auto 6px;
-  border-radius:50%;
-  background:#edf1ee;
-  color:#78877e;
-}
-
-.progress-item.active{
-  color:var(--green);
-}
-
-.progress-item.active span,
-.progress-item.done span{
-  background:#dff8ea;
-  color:#078c53;
-}
-
-.progress-item.done{
-  color:#078c53;
-}
-
-.progress-line{
-  height:2px;
-  flex:.4;
-  background:#e6eee9;
-  margin-top:-17px;
-}
-
-.screen{
-  display:none;
-  animation:fade .3s ease;
-}
-
-.screen.active{
-  display:block;
-}
-
-@keyframes fade{
-  from{opacity:0;transform:translateY(9px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.section-title{
-  font-size:19px;
-  font-weight:900;
-  margin-bottom:7px;
-}
-
-.section-desc{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  margin-bottom:20px;
-}
-
-.slots-box{
-  padding:15px;
-  background:#edfff4;
-  border:1px solid #d9f3e4;
-  border-radius:15px;
-  margin-bottom:23px;
-}
-
-.slots-heading{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  font-size:12px;
-  font-weight:800;
-  margin-bottom:13px;
-}
-
-.slots-heading span{
-  color:var(--green);
-}
-
-.slots-grid{
-  display:grid;
-  grid-template-columns:repeat(25,1fr);
-  gap:4px;
-}
-
-.slot-bar{
-  height:9px;
-  border-radius:5px;
-  background:#25bd79;
-}
-
-.slots-note{
-  font-size:10px;
-  color:#718579;
-  margin-top:10px;
-}
-
-.field{
-  margin-bottom:16px;
-}
-
-label{
-  display:block;
-  font-size:11px;
-  font-weight:850;
-  color:#42544a;
-  margin-bottom:8px;
-  letter-spacing:.3px;
-}
-
-input{
-  width:100%;
-  height:49px;
-  border:1px solid #e2eae5;
-  background:#fafcfb;
-  border-radius:12px;
-  padding:0 13px;
-  font-size:13px;
-  outline:none;
-  color:#172a22;
-  transition:.2s;
-}
-
-input:focus{
-  border-color:var(--green);
-  background:white;
-  box-shadow:0 0 0 3px #13a66b15;
-}
-
-input::placeholder{
-  color:#a3aea7;
-}
-
-.players{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:11px;
-}
-
-.player{
-  position:relative;
-}
-
-.player input{
-  padding-left:42px;
-}
-
-.player b{
-  position:absolute;
-  left:13px;
-  top:17px;
-  color:var(--green);
-  font-size:12px;
-}
-
-.info-box{
-  padding:13px;
-  background:#f5f9f7;
-  border-radius:12px;
-  color:#63756a;
-  font-size:11px;
-  line-height:1.7;
-  margin:18px 0;
-}
-
-.btn{
-  width:100%;
-  min-height:52px;
-  border:0;
-  border-radius:13px;
-  background:linear-gradient(135deg,#20be7a,#07834f);
-  color:white;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 8px 18px #13a66b25;
-  transition:.2s;
-}
-
-.btn:active{
-  transform:scale(.98);
-}
-
-.btn:disabled{
-  background:#b9c9c0;
-  box-shadow:none;
-  cursor:not-allowed;
-  color:#fff;
-}
-
-.btn-back{
-  background:#eff4f1;
-  color:#56685e;
-  box-shadow:none;
-  margin-top:10px;
-}
-
-.payment-card{
-  background:#f6faf8;
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:18px 12px;
-  text-align:center;
-}
-
-.payment-icon{
-  font-size:29px;
-  margin-bottom:9px;
-}
-
-.payment-card h3{
-  font-size:17px;
-  margin-bottom:6px;
-}
-
-.payment-card p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.7;
-}
-
-.qr-wrapper{
-  display:inline-block;
-  padding:11px;
-  background:white;
-  border:1px solid #e5ebe7;
-  border-radius:15px;
-  margin:16px 0 10px;
-  box-shadow:0 5px 18px #00000008;
-}
-
-.qr-wrapper img{
-  display:block;
-  width:215px;
-  height:215px;
-  object-fit:contain;
-}
-
-.qr-instruction{
-  font-size:11px;
-  color:#53675b;
-  line-height:1.7;
-  margin-top:9px;
-}
-
-.warning{
-  background:#fff8e9;
-  border:1px solid #f5e7c7;
-  border-radius:11px;
-  padding:12px;
-  font-size:10px;
-  color:#95651b;
-  text-align:left;
-  line-height:1.7;
-  margin-top:15px;
-}
-
-.payment-check{
-  display:flex;
-  align-items:flex-start;
-  gap:11px;
-  background:#edfff4;
-  border:1px solid #cdeedb;
-  padding:15px;
-  border-radius:13px;
-  margin:17px 0;
-  text-align:left;
-  cursor:pointer;
-}
-
-.payment-check input{
-  width:21px;
-  height:21px;
-  min-width:21px;
-  accent-color:#0b9b5d;
-  margin-top:1px;
-}
-
-.payment-check strong{
-  display:block;
-  font-size:12px;
-  color:#17623e;
-  margin-bottom:4px;
-}
-
-.payment-check small{
-  display:block;
-  color:#6a8274;
-  font-size:10px;
-  line-height:1.6;
-}
-
-.status{
-  text-align:center;
-  font-size:11px;
-  color:#a16b13;
-  background:#fff8e9;
-  border-radius:10px;
-  padding:11px;
-  margin-bottom:15px;
-}
-
-.status.ready{
-  color:#087c4d;
-  background:#e8f9ef;
-}
-
-.summary{
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  margin:18px 0;
-}
-
-.summary-head{
-  background:#f1faf5;
-  padding:13px;
-  font-size:12px;
-  font-weight:900;
-}
-
-.summary-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:12px;
-  border-top:1px solid var(--border);
-  font-size:11px;
-}
-
-.summary-row span:first-child{
-  color:var(--muted);
-}
-
-.summary-row strong{
-  text-align:right;
-  word-break:break-word;
-}
-
-.footer{
-  text-align:center;
-  color:#9aa79f;
-  font-size:10px;
-  margin-top:16px;
-  line-height:1.7;
-}
-
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-  background:#10251bd9;
-  backdrop-filter:blur(5px);
-}
-
-.modal-overlay.active{
-  display:flex;
-}
-
-.modal{
-  width:100%;
-  max-width:380px;
-  background:white;
-  padding:25px 20px;
-  border-radius:22px;
-  text-align:center;
-}
-
-.modal-icon{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:#e4f9ed;
-  display:grid;
-  place-items:center;
-  color:#0b9b5d;
-  font-size:30px;
-  margin:0 auto 14px;
-}
-
-.modal h2{
-  font-size:20px;
-  margin-bottom:10px;
-}
-
-.modal p{
-  font-size:12px;
-  line-height:1.8;
-  color:#74847a;
-  margin-bottom:18px;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;padding:28px 14px 40px}
+.container{max-width:520px;margin:0 auto}
+.header{text-align:left;padding:8px 2px 22px}
+.logo{width:46px;height:46px;border-radius:12px;background:#e7f1ec;display:grid;place-items:center;color:var(--green);font-size:23px;margin:0 0 15px}
+.tag{display:inline-block;background:#eaf2ee;color:var(--dark);font-size:10px;font-weight:800;padding:6px 10px;border-radius:5px;letter-spacing:.7px;margin-bottom:10px}
+.header h1{font-size:25px;font-weight:800;letter-spacing:-.6px;color:#14251e}
+.header p{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.6}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 20px;box-shadow:0 5px 22px rgba(20,35,50,.045)}
+.progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px;gap:5px}
+.progress-item{flex:1;text-align:center;font-size:10px;color:#89939d;font-weight:700}
+.progress-item span{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 6px;border-radius:50%;background:#edf0f2;color:#687582;font-size:11px}
+.progress-item.active{color:var(--green)}
+.progress-item.active span,.progress-item.done span{background:#e5f1eb;color:var(--green)}
+.progress-item.done{color:var(--green)}
+.progress-line{height:1px;flex:.45;background:#e2e7eb;margin-top:-17px}
+.screen{display:none;animation:fade .2s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-size:19px;font-weight:800;margin-bottom:6px;letter-spacing:-.3px}
+.section-desc{color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:20px}
+.slots-box{padding:14px;background:#f8faf9;border:1px solid var(--border);border-radius:10px;margin-bottom:22px}
+.slots-heading{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:750;margin-bottom:12px}
+.slots-heading span{color:var(--green)}
+.slots-grid{display:grid;grid-template-columns:repeat(25,minmax(0,1fr));gap:4px}
+.slot-bar{height:8px;border-radius:2px;background:#7eb49a}
+.slots-note{font-size:10px;color:var(--muted);margin-top:9px}
+.field{margin-bottom:16px}
+label{display:block;font-size:11px;font-weight:750;color:#394653;margin-bottom:7px;letter-spacing:.2px}
+input{width:100%;height:46px;border:1px solid #dce2e7;background:#fff;border-radius:8px;padding:0 12px;font-size:13px;outline:none;color:var(--text);transition:border-color .2s,box-shadow .2s}
+input:focus{border-color:#4b9272;box-shadow:0 0 0 3px rgba(23,107,75,.09)}
+input::placeholder{color:#a0aab3}
+.players{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.player{position:relative}
+.player input{padding-left:39px}
+.player b{position:absolute;left:12px;top:16px;color:var(--green);font-size:11px}
+.info-box{padding:12px;background:#f7f9fa;border:1px solid #e8edf0;border-radius:8px;color:#62707c;font-size:11px;line-height:1.7;margin:17px 0}
+.btn{width:100%;min-height:48px;border:1px solid var(--green);border-radius:8px;background:var(--green);color:#fff;font-size:13px;font-weight:800;cursor:pointer;transition:background .2s,transform .15s}
+.btn:hover{background:var(--dark)}
+.btn:active{transform:scale(.99)}
+.btn:disabled{background:#aab8b1;border-color:#aab8b1;cursor:not-allowed}
+.btn-back{background:#fff;color:#43515d;border:1px solid #dce2e7;box-shadow:none;margin-top:9px}
+.btn-back:hover{background:#f6f8f9;color:#26343f}
+.payment-card{background:#fafbfc;border:1px solid var(--border);border-radius:10px;padding:18px 12px;text-align:center}
+.payment-icon{font-size:25px;margin-bottom:8px}
+.payment-card h3{font-size:16px;margin-bottom:5px}
+.payment-card p{color:var(--muted);font-size:11px;line-height:1.7}
+.qr-wrapper{display:inline-block;padding:9px;background:#fff;border:1px solid var(--border);border-radius:9px;margin:14px 0 8px}
+.qr-wrapper img{display:block;width:205px;height:205px;object-fit:contain}
+.qr-instruction{font-size:11px;color:#53616d;line-height:1.7;margin-top:8px}
+.warning{background:#fffaf0;border:1px solid #f0e5c9;border-radius:8px;padding:11px;font-size:10px;color:#82621e;text-align:left;line-height:1.7;margin-top:13px}
+.payment-check{display:flex;align-items:flex-start;gap:10px;background:#f4f8f5;border:1px solid #dce9e0;padding:13px;border-radius:9px;margin:16px 0;text-align:left;cursor:pointer}
+.payment-check input{width:19px;height:19px;min-width:19px;accent-color:var(--green);margin-top:1px}
+.payment-check strong{display:block;font-size:12px;color:#245b42;margin-bottom:4px}
+.payment-check small{display:block;color:#687b70;font-size:10px;line-height:1.6}
+.status{text-align:center;font-size:11px;color:#86651f;background:#fff8e9;border:1px solid #f1e6cc;border-radius:8px;padding:10px;margin-bottom:13px}
+.status.ready{color:#176b4b;background:#edf6f0;border-color:#d9eade}
+.summary{border:1px solid var(--border);border-radius:9px;overflow:hidden;margin:17px 0}
+.summary-head{background:#f6f8f9;padding:12px;font-size:11px;font-weight:850}
+.summary-row{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;border-top:1px solid var(--border);font-size:11px}
+.summary-row span:first-child{color:var(--muted)}
+.summary-row strong{text-align:right;word-break:break-word}
+.footer{text-align:center;color:#89949e;font-size:10px;margin-top:16px;line-height:1.7}
+.modal-overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(20,32,28,.55);backdrop-filter:blur(3px)}
+.modal-overlay.active{display:flex}
+.modal{width:100%;max-width:370px;background:#fff;border:1px solid var(--border);padding:23px 19px;border-radius:14px;text-align:center;box-shadow:0 15px 50px rgba(0,0,0,.15)}
+.modal-icon{width:54px;height:54px;border-radius:50%;background:#eaf4ee;display:grid;place-items:center;color:var(--green);font-size:26px;margin:0 auto 13px}
+.modal h2{font-size:19px;margin-bottom:8px}
+.modal p{font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:16px}
 @media(max-width:380px){
+  body{padding:18px 10px 30px}
   .card{padding:17px 13px}
-  .header h1{font-size:25px}
-  .qr-wrapper img{width:190px;height:190px}
+  .header h1{font-size:23px}
+  .qr-wrapper img{width:185px;height:185px}
   .slots-grid{gap:2px}
 }
 </style>
@@ -565,7 +149,7 @@ Enter your complete squad information to continue.
 
 <div class="field">
   <label>CAPTAIN WHATSAPP NUMBER *</label>
-  <input id="whatsappNumber" type="tel"
+  <input id="whatsappNumber" type="tel" autocomplete="tel"
     inputmode="numeric" maxlength="10"
     pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
 </div>
@@ -627,14 +211,8 @@ alt="Tournament Payment QR Code">
 Open your UPI application and scan this QR code to make the payment.
 </div>
 
-<div class="warning" style="background:#f1fff6;border-color:#cdeedb;color:#17623e;text-align:left">
-<strong>📸 Upload Payment Screenshot</strong><br>
-Select your payment screenshot below. It will be saved privately in Google Drive and shown in the admin dashboard.
-<iframe id="paymentUploadFrame" title="Payment screenshot upload" style="width:100%;height:285px;border:0;border-radius:12px;margin-top:10px;background:#f6faf8" loading="lazy"></iframe>
-</div>
-
 <div class="warning">
-⚠️ Upload only a genuine payment receipt. Never share your UPI PIN or OTP. Screenshot upload does not itself confirm payment; admin verification is required.
+⚠️ Make sure you have paid the correct entry fee. Keep your transaction screenshot ready. Never share your UPI PIN or OTP.
 </div>
 
 </div>
@@ -643,7 +221,7 @@ Select your payment screenshot below. It will be saved privately in Google Drive
 <input type="checkbox" id="paymentDone">
 <span>
 <strong>Yes, I have completed my payment</strong>
-<small>I confirm that I have completed the payment. My screenshot has also been uploaded for admin verification.</small>
+<small>I confirm that I have scanned the QR code and successfully made the entry fee payment.</small>
 </span>
 </label>
 
@@ -736,7 +314,7 @@ Tournament Registration Portal
   <p>
     Your booking details are ready. WhatsApp will open with your registration message.
     <br><br>
-    Your screenshot is already saved in the tournament Google Drive. Send the booking message to the admin.
+    Please attach your payment screenshot and send the message to the admin.
   </p>
   <button class="btn" id="openWhatsApp">
     BOOK NOW →
@@ -750,9 +328,6 @@ Tournament Registration Portal
 <script>
 
 const ADMIN_WHATSAPP = "919813565729";
-// Replace with your deployed Apps Script Web App URL ending in /exec.
-const PAYMENT_APP_URL = "https://script.google.com/macros/s/AKfycbxsqWdFX6agC-9FElYU-hdcZWtcvlFuAq5ojbgZ_lwk8zm5TxYzWf-S7F3dKT733YKktg/exec";
-let screenshotUploaded = false;
 
 const form = document.getElementById("registrationForm");
 const paymentCheckbox = document.getElementById("paymentDone");
@@ -815,27 +390,6 @@ function getDetails(){
   };
 }
 
-function loadPaymentUploader(){
-  const d=getDetails();
-  const frame=document.getElementById("paymentUploadFrame");
-  if(!PAYMENT_APP_URL || PAYMENT_APP_URL.includes("PASTE_YOUR")){
-    frame.srcdoc='<div style="font:12px Arial;padding:14px;color:#a33">Setup pending: add your Apps Script Web App URL in PAYMENT_APP_URL.</div>';
-    return;
-  }
-  const q=new URLSearchParams({page:"upload",team:d.team,phone:d.phone,p1:d.players[0],p2:d.players[1],p3:d.players[2],p4:d.players[3]});
-  frame.src=PAYMENT_APP_URL+"?"+q.toString();
-}
-
-window.addEventListener("message",function(event){
-  if(event.data && event.data.type==="DJ_PAYMENT_UPLOADED" && event.data.ok){
-    screenshotUploaded=true;
-    const ready=paymentCheckbox.checked;
-    continueBooking.disabled=!ready;
-    paymentStatus.classList.toggle("ready",ready);
-    paymentStatus.textContent=ready ? "✓ Screenshot saved to Drive and payment declaration completed." : "✓ Screenshot saved to Drive. Now confirm your payment.";
-  }
-});
-
 // STEP 1 -> STEP 2
 
 form.addEventListener("submit",function(e){
@@ -852,7 +406,6 @@ form.addEventListener("submit",function(e){
   }
 
   showScreen("payment");
-  loadPaymentUploader();
 
 });
 
@@ -862,14 +415,13 @@ paymentCheckbox.addEventListener("change",function(){
 
   const paid=this.checked;
 
-  continueBooking.disabled=!(paid && screenshotUploaded);
+  continueBooking.disabled=!paid;
 
-  const ready=paid && screenshotUploaded;
-  paymentStatus.classList.toggle("ready",ready);
+  paymentStatus.classList.toggle("ready",paid);
 
-  paymentStatus.textContent=ready
-    ? "✓ Screenshot uploaded and payment declaration completed. You can continue."
-    : (!screenshotUploaded ? "Please upload your payment screenshot first." : "Please confirm your payment to unlock booking.");
+  paymentStatus.textContent=paid
+    ? "✓ Payment declaration completed. You can continue."
+    : "Please confirm your payment to unlock booking.";
 
 });
 
@@ -877,8 +429,8 @@ paymentCheckbox.addEventListener("change",function(){
 
 continueBooking.addEventListener("click",function(){
 
-  if(!paymentCheckbox.checked || !screenshotUploaded){
-    alert("Please upload your payment screenshot and confirm payment first.");
+  if(!paymentCheckbox.checked){
+    alert("Please confirm your payment first.");
     return;
   }
 
@@ -941,7 +493,7 @@ I want to register my team for the tournament.
 
 Payment Method: UPI QR Code
 Payment Declaration: PAID (Player confirmed)
-Payment Screenshot: Uploaded to the tournament private Google Drive storage.
+Payment Screenshot: Will be attached in this chat.
 
 🎮 *BOOKING REQUEST*
 
