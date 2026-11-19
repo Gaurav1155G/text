@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b2c59">
-<title>DJ ESPORTS 2017 | Official Slot Registration Portal</title>
-<link rel="icon" type="image/png" href="1000102952.png">
+<title>DJ ESPORTS | Official Slot Registration Portal</title>
+<link rel="icon" type="image/jpeg" href="https://pvtbro.carrd.co/assets/images/image02.jpg?v=a95da8b9">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans:wght@500;700;800&display=swap" rel="stylesheet">
@@ -18,6 +18,8 @@
   --saffron: #ff6b00;
   --green: #137333;
   --green-bg: #e6f4ea;
+  --amber: #b45309;
+  --amber-bg: #fef3c7;
   --red: #b91c1c;
   --red-bg: #fee2e2;
   --bg: #f1f5f9;
@@ -29,6 +31,7 @@
   --warning-bg: #fffbeb;
   --warning-border: #f59e0b;
   --warning-text: #92400e;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -36,6 +39,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -44,7 +48,37 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
+
+/* ANIMATIONS */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.95) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseLive {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.shake { animation: shakeError 0.35s ease-in-out; }
+.spin-icon { animation: spin 0.8s linear infinite; }
 
 /* TOP GOVERNMENT STRIP */
 .tricolor-bar {
@@ -66,22 +100,53 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .gov-utility-inner span {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-weight: 600;
+}
+
+.utility-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.util-btn {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: var(--navy);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.util-btn:hover {
+  background: var(--navy-light);
+  border-color: #93c5fd;
 }
 
 /* OFFICIAL HEADER */
 .gov-header {
   background: var(--navy);
   color: #ffffff;
-  padding: 16px 14px;
+  padding: 14px;
   border-bottom: 3px solid var(--saffron);
-  box-shadow: 0 2px 8px rgba(11, 44, 89, 0.15);
+  box-shadow: 0 2px 10px rgba(11, 44, 89, 0.16);
+  position: sticky;
+  top: 0;
+  z-index: 40;
 }
 
 .gov-header-inner {
@@ -100,8 +165,8 @@ body {
 }
 
 .emblem-box {
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: #060913;
   display: grid;
@@ -110,7 +175,10 @@ body {
   border: 2px solid #a855f7;
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.45);
   overflow: hidden;
+  transition: transform 0.25s var(--ease-smooth);
 }
+
+.emblem-box:hover { transform: scale(1.04); }
 
 .emblem-box img {
   width: 100%;
@@ -163,11 +231,15 @@ body {
   gap: 5px;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background 0.15s;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
-.check-slot-btn:hover {
-  background: #f1f5f9;
+.check-slot-btn:hover { background: #e2e8f0; }
+
+.check-slot-btn.active-view {
+  background: var(--saffron);
+  color: #ffffff;
+  border-color: var(--saffron);
 }
 
 .logout-btn {
@@ -182,14 +254,15 @@ body {
   display: none;
   align-items: center;
   gap: 4px;
+  transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 .logout-btn:hover {
-  background: rgba(239, 68, 68, 0.85);
+  background: rgba(239, 68, 68, 0.9);
   border-color: #ef4444;
 }
 
-/* NOTICE MARQUEE BAR */
+/* NOTICE & COUNTDOWN BAR */
 .notice-strip {
   background: #fff8eb;
   border-bottom: 1px solid #fde68a;
@@ -203,7 +276,17 @@ body {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+.notice-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 210px;
 }
 
 .notice-badge {
@@ -217,11 +300,25 @@ body {
   flex-shrink: 0;
 }
 
+.countdown-pill {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #78350f;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  min-width: 162px;
+  text-align: center;
+}
+
 /* MAIN CONTAINER */
 .container {
   max-width: 560px;
   width: 100%;
-  margin: 20px auto 36px;
+  margin: 18px auto 36px;
   padding: 0 14px;
   flex: 1;
 }
@@ -233,6 +330,7 @@ body {
   border-radius: 6px;
   padding: 14px 16px;
   margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 .progress {
@@ -251,7 +349,11 @@ body {
   font-size: 11.5px;
   color: var(--muted);
   font-weight: 600;
+  transition: color 0.25s ease;
+  user-select: none;
 }
+
+.progress-item.done { cursor: pointer; }
 
 .progress-item span {
   display: grid;
@@ -263,6 +365,7 @@ body {
   color: #475569;
   font-size: 11.5px;
   font-weight: 800;
+  transition: all 0.25s var(--ease-smooth);
 }
 
 .progress-item.active {
@@ -273,6 +376,7 @@ body {
 .progress-item.active span {
   background: var(--navy);
   color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(11, 44, 89, 0.14);
 }
 
 .progress-item.done {
@@ -289,7 +393,10 @@ body {
   height: 2px;
   flex: 0.35;
   background: #cbd5e1;
+  transition: background 0.3s ease;
 }
+
+.progress-line.done { background: var(--green); }
 
 /* FORM PANEL */
 .card {
@@ -297,7 +404,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
 }
 
 .card-banner {
@@ -307,6 +414,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .card-banner h2 {
@@ -324,26 +432,54 @@ body {
   background: #e2e8f0;
   padding: 3px 7px;
   border-radius: 3px;
+  white-space: nowrap;
 }
 
-.card-body {
-  padding: 20px 18px;
-}
+.card-body { padding: 20px 18px; }
 
-.screen {
-  display: none;
-}
-
+.screen { display: none; }
 .screen.active {
   display: block;
+  animation: fadeSlideUp 0.24s var(--ease-smooth);
 }
 
 .section-desc {
   color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
+
+/* SAVED RECEIPT RECOVERY BANNER */
+.saved-receipt-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  border-radius: 4px;
+  padding: 9px 12px;
+  margin-bottom: 14px;
+  font-size: 11.5px;
+  color: var(--navy);
+}
+
+.saved-receipt-bar.active { display: flex; }
+
+.saved-receipt-btn {
+  background: var(--navy);
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.saved-receipt-btn:hover { background: var(--navy-dark); }
 
 /* LOGIN SPECIFIC STYLES */
 .auth-shield {
@@ -409,6 +545,7 @@ body {
   place-items: center;
   color: var(--navy);
   z-index: 2;
+  pointer-events: none;
 }
 
 .login-alert {
@@ -419,6 +556,7 @@ body {
   font-weight: 600;
   margin-bottom: 15px;
   line-height: 1.5;
+  animation: fadeSlideUp 0.2s ease;
 }
 
 .login-alert.error {
@@ -442,6 +580,15 @@ body {
   color: #92400e;
 }
 
+.verified-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
 .verified-pill {
   display: inline-flex;
   align-items: center;
@@ -453,63 +600,123 @@ body {
   font-weight: 800;
   padding: 5px 10px;
   border-radius: 4px;
-  margin-bottom: 14px;
 }
 
-/* QUOTA / CAPACITY BOX */
-.slots-box {
-  padding: 13px 14px;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--navy);
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-.slots-heading {
-  display: flex;
-  justify-content: space-between;
+.live-quota-pill {
+  display: inline-flex;
   align-items: center;
-  font-size: 12px;
-  font-weight: 700;
+  gap: 5px;
+  background: #f8fafc;
   color: var(--navy);
-  margin-bottom: 10px;
-}
-
-.slots-heading span {
-  background: var(--navy-light);
-  color: var(--navy);
-  padding: 2px 8px;
-  border-radius: 3px;
+  border: 1px solid var(--border);
   font-size: 11px;
   font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
-.slots-grid {
-  display: grid;
-  grid-template-columns: repeat(25, minmax(0, 1fr));
-  gap: 3px;
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #16a34a;
+  animation: pulseLive 1.5s infinite;
 }
 
-.slot-bar {
-  height: 10px;
-  border-radius: 2px;
-  background: #22c55e;
-  border: 1px solid #16a34a;
+/* QUOTA FULL BANNER */
+.quota-full-banner {
+  display: none;
+  background: var(--red-bg);
+  border: 2px solid var(--red);
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 18px;
+  text-align: center;
+  color: var(--red);
 }
 
-.slot-bar.filled {
-  background: #ef4444;
-  border-color: #dc2626;
+.quota-full-banner.active { display: block; }
+.quota-full-banner h3 {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.quota-full-banner p {
+  font-size: 11.5px;
+  color: #7f1d1d;
 }
 
-.slots-note {
+/* CLICKABLE SLOT SELECTOR TRIGGER BOX */
+.slot-selector-box {
+  background: #f8fafc;
+  border: 1.5px solid #94a3b8;
+  border-left: 4px solid var(--navy);
+  border-radius: 5px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.slot-selector-box:hover {
+  background: #eff6ff;
+  border-color: var(--navy);
+  box-shadow: 0 3px 10px rgba(11, 44, 89, 0.08);
+}
+
+.slot-selector-box.has-slot {
+  background: #fff7ed;
+  border-color: #fb923c;
+  border-left-color: var(--saffron);
+}
+
+.slot-selector-label {
   font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
   color: var(--muted);
-  margin-top: 8px;
-  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.slot-selector-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.slot-selector-box.has-slot .slot-selector-value {
+  color: #c2410c;
+}
+
+.slot-selector-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.slot-selector-action {
+  background: var(--navy);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 8px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.slot-selector-box.has-slot .slot-selector-action {
+  background: var(--saffron);
 }
 
 /* SECTION DIVIDER */
@@ -523,10 +730,17 @@ body {
   margin-bottom: 14px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.field {
-  margin-bottom: 15px;
+.field { margin-bottom: 14px; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 label {
@@ -537,13 +751,12 @@ label {
   margin-bottom: 6px;
 }
 
-label .req {
-  color: #dc2626;
-}
+label .req { color: #dc2626; }
+label .opt { color: #64748b; font-weight: 500; font-size: 10.5px; }
 
 input[type="text"],
 input[type="tel"],
-input:not([type="checkbox"]) {
+select {
   width: 100%;
   height: 42px;
   border: 1px solid #94a3b8;
@@ -553,47 +766,75 @@ input:not([type="checkbox"]) {
   font-size: 13px;
   color: #0f172a;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-input:focus {
+input:focus, select:focus {
   border-color: var(--navy);
   box-shadow: 0 0 0 3px rgba(11, 44, 89, 0.12);
 }
 
-input::placeholder {
-  color: #94a3b8;
+input.input-error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
 }
+
+input::placeholder { color: #94a3b8; }
 
 .players {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
-.player {
-  position: relative;
-}
-
-.player input {
-  padding-left: 38px;
-}
+.player { position: relative; }
+.player input { padding-left: 38px; }
 
 .player b {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  left: 1px;
+  top: 1px;
+  bottom: 1px;
   width: 30px;
   background: #f1f5f9;
   border-right: 1px solid #cbd5e1;
-  border-radius: 4px 0 0 4px;
+  border-radius: 3px 0 0 3px;
   display: grid;
   place-items: center;
   color: var(--navy);
   font-size: 11px;
   font-weight: 800;
+  pointer-events: none;
+}
+
+.sub-toggle-btn {
+  background: #f8fafc;
+  border: 1px dashed #94a3b8;
+  color: var(--navy);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 14px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sub-toggle-btn:hover {
+  background: var(--navy-light);
+  border-color: var(--navy);
+}
+
+.sub-player-wrap {
+  display: none;
+  margin-bottom: 14px;
+}
+
+.sub-player-wrap.active {
+  display: block;
+  animation: fadeSlideUp 0.2s ease;
 }
 
 .info-box {
@@ -616,7 +857,7 @@ input::placeholder {
   margin-top: 2px;
 }
 
-/* OFFICIAL BUTTONS & ANCHOR BUTTONS */
+/* OFFICIAL BUTTONS */
 .btn {
   width: 100%;
   min-height: 44px;
@@ -633,18 +874,22 @@ input::placeholder {
   justify-content: center;
   gap: 8px;
   text-decoration: none;
-  transition: background 0.15s;
+  transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
 }
 
 .btn:hover:not(:disabled) {
   background: var(--navy-dark);
+  box-shadow: 0 3px 8px rgba(11, 44, 89, 0.18);
 }
+
+.btn:active:not(:disabled) { transform: scale(0.99); }
 
 .btn:disabled {
   background: #cbd5e1;
   border-color: #cbd5e1;
   color: #64748b;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn-green {
@@ -655,7 +900,16 @@ input::placeholder {
 
 .btn-green:hover:not(:disabled) {
   background: #0f5c28;
+  box-shadow: 0 3px 8px rgba(19, 115, 51, 0.2);
 }
+
+.btn-saffron {
+  background: #ea580c;
+  border-color: #ea580c;
+  color: #ffffff;
+}
+
+.btn-saffron:hover:not(:disabled) { background: #c2410c; }
 
 .btn-back {
   background: #ffffff;
@@ -665,9 +919,10 @@ input::placeholder {
   font-weight: 600;
 }
 
-.btn-back:hover {
+.btn-back:hover:not(:disabled) {
   background: #f1f5f9;
   color: #0f172a;
+  box-shadow: none;
 }
 
 /* PAYMENT CHALLAN BOX */
@@ -677,6 +932,7 @@ input::placeholder {
   border-radius: 4px;
   padding: 18px 14px;
   text-align: center;
+  margin-bottom: 16px;
 }
 
 .payment-card h3 {
@@ -696,8 +952,16 @@ input::placeholder {
   padding: 10px;
   background: #ffffff;
   border: 1px solid #94a3b8;
-  border-radius: 4px;
-  margin: 14px 0 8px;
+  border-radius: 6px;
+  margin: 14px 0 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: zoom-in;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.qr-wrapper:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(11, 44, 89, 0.14);
 }
 
 .qr-wrapper img {
@@ -705,6 +969,35 @@ input::placeholder {
   width: 195px;
   height: 195px;
   object-fit: contain;
+}
+
+.qr-action-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0 10px;
+}
+
+.qr-mini-btn {
+  background: #ffffff;
+  border: 1px solid var(--navy);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.qr-mini-btn:hover {
+  background: var(--navy);
+  color: #ffffff;
 }
 
 .qr-instruction {
@@ -725,7 +1018,7 @@ input::placeholder {
   color: var(--warning-text);
   text-align: left;
   line-height: 1.6;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .warning svg {
@@ -741,10 +1034,13 @@ input::placeholder {
   border: 1px solid #86efac;
   padding: 12px;
   border-radius: 4px;
-  margin: 15px 0;
+  margin: 14px 0;
   text-align: left;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
+
+.payment-check:hover { background: #dcfce7; }
 
 .payment-check input[type="checkbox"] {
   width: 18px;
@@ -779,6 +1075,7 @@ input::placeholder {
   border-radius: 4px;
   padding: 9px;
   margin-bottom: 14px;
+  transition: all 0.25s ease;
 }
 
 .status.ready {
@@ -807,7 +1104,7 @@ input::placeholder {
 }
 
 .summary-table td {
-  padding: 9px 12px;
+  padding: 8px 12px;
   border-top: 1px solid var(--border-light);
 }
 
@@ -824,13 +1121,32 @@ input::placeholder {
   word-break: break-word;
 }
 
-/* LIVE SLOT REGISTRY TABLE */
+/* LIVE SLOT REGISTRY TABLE & SEARCH */
+.slot-filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.slot-filter-bar input {
+  flex: 1;
+  height: 38px;
+  font-size: 12px;
+}
+
+.slot-filter-bar select {
+  width: 130px;
+  height: 38px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .slot-table-wrap {
   border: 1px solid var(--border);
   border-radius: 4px;
   max-height: 410px;
   overflow-y: auto;
-  margin: 14px 0;
+  margin: 10px 0 14px;
 }
 
 .slot-table {
@@ -852,9 +1168,9 @@ input::placeholder {
   z-index: 2;
 }
 
-.slot-table tbody tr:nth-child(even) {
-  background: #f8fafc;
-}
+.slot-table tbody tr:nth-child(even) { background: #f8fafc; }
+.slot-table tbody tr.vacant-row { cursor: pointer; }
+.slot-table tbody tr.vacant-row:hover { background: #dcfce7; }
 
 .slot-table td {
   padding: 9px 12px;
@@ -873,9 +1189,9 @@ input::placeholder {
 }
 
 .slot-team-cell.empty {
-  color: #94a3b8;
-  font-weight: 500;
-  font-style: italic;
+  color: #15803d;
+  font-weight: 600;
+  font-style: normal;
 }
 
 .badge-status {
@@ -891,6 +1207,12 @@ input::placeholder {
   background: var(--green-bg);
   color: var(--green);
   border: 1px solid #86efac;
+}
+
+.badge-pending {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid #fcd34d;
 }
 
 .badge-booked {
@@ -920,11 +1242,9 @@ input::placeholder {
   border-top: 3px solid var(--navy);
 }
 
-.gov-footer strong {
-  color: #ffffff;
-}
+.gov-footer strong { color: #ffffff; }
 
-/* MODAL */
+/* MODALS */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -934,22 +1254,80 @@ input::placeholder {
   justify-content: center;
   padding: 16px;
   background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(3px);
 }
 
-.modal-overlay.active {
-  display: flex;
-}
+.modal-overlay.active { display: flex; }
 
 .modal {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
   background: #ffffff;
   border: 1px solid var(--border);
   border-top: 4px solid var(--green);
   border-radius: 6px;
-  padding: 22px 18px;
+  padding: 20px 18px;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  animation: modalPop 0.24s var(--ease-smooth);
+}
+
+.modal.rules-modal,
+.modal.picker-modal {
+  max-width: 480px;
+  border-top-color: var(--navy);
+  text-align: left;
+}
+
+/* SLOT PICKER LIST MODAL ITEMS */
+.picker-list-wrap {
+  max-height: 360px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  margin: 10px 0 14px;
+}
+
+.picker-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+
+.picker-item:last-child { border-bottom: none; }
+.picker-item:hover:not(.disabled) { background: #eff6ff; }
+.picker-item.selected {
+  background: #fff7ed;
+  border-left: 4px solid var(--saffron);
+}
+.picker-item.disabled {
+  background: #f8fafc;
+  cursor: not-allowed;
+  opacity: 0.78;
+}
+
+.picker-item-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.picker-item-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.picker-item-sub {
+  font-size: 11px;
+  color: var(--muted);
 }
 
 .modal-icon {
@@ -965,16 +1343,47 @@ input::placeholder {
 }
 
 .modal h2 {
-  font-size: 18px;
+  font-size: 17px;
   color: var(--navy);
   margin-bottom: 8px;
 }
 
 .modal p {
   font-size: 12px;
-  line-height: 1.7;
+  line-height: 1.6;
   color: var(--muted);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+}
+
+.rules-list {
+  font-size: 12px;
+  color: #334155;
+  line-height: 1.6;
+  padding-left: 16px;
+  margin-bottom: 14px;
+}
+
+.rules-list li { margin-bottom: 5px; }
+
+.pts-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+}
+
+.pts-grid th {
+  background: var(--navy);
+  color: #fff;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.pts-grid td {
+  padding: 6px 10px;
+  border-top: 1px solid var(--border-light);
+  font-weight: 600;
 }
 
 .copy-status {
@@ -985,12 +1394,103 @@ input::placeholder {
   min-height: 16px;
 }
 
-@media (max-width: 420px) {
-  .players { grid-template-columns: 1fr; }
+/* FULL-SCREEN QR VIEWER OVERLAY (SINGLE BOTTOM BACK BUTTON) */
+.qr-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: #0b1324;
+  color: #ffffff;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  animation: fadeSlideUp 0.2s var(--ease-smooth);
+}
+
+.qr-fullscreen-overlay.active { display: flex; }
+
+.qr-fs-topbar {
+  background: var(--navy);
+  border-bottom: 3px solid var(--saffron);
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.qr-fs-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.qr-fs-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.qr-fs-card {
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  border: 3px solid var(--saffron);
+}
+
+.qr-fs-card img {
+  display: block;
+  width: min(82vw, 330px);
+  height: min(82vw, 330px);
+  object-fit: contain;
+}
+
+.qr-fs-caption {
+  margin-top: 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.qr-fs-subcaption {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: #cbd5e1;
+  max-width: 340px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.qr-fs-bottombar {
+  background: #0f172a;
+  border-top: 1px solid #1e293b;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 440px) {
+  .players, .field-row { grid-template-columns: 1fr; }
   .gov-header h1 { font-size: 17px; }
   .emblem-box { width: 46px; height: 46px; }
   .progress-item { font-size: 10.5px; gap: 5px; }
-  .slots-grid { gap: 2px; }
 }
 </style>
 </head>
@@ -1005,9 +1505,16 @@ input::placeholder {
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0b2c59" stroke-width="2.3">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       </svg>
-      OFFICIAL TOURNAMENT BOOKING PORTAL
+      <span data-i18n="portalTag">OFFICIAL TOURNAMENT PORTAL</span>
     </span>
-    <span>TOTAL QUOTA: 25 SLOTS</span>
+    <div class="utility-actions">
+      <button class="util-btn" id="openRulesBtn" type="button">
+        📋 <span data-i18n="rulesBtn">RULES & SCHEDULE</span>
+      </button>
+      <button class="util-btn" id="langToggleBtn" type="button">
+        🌐 हिंदी / EN
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1018,9 +1525,9 @@ input::placeholder {
         <img src="https://pvtbro.carrd.co/assets/images/image02.jpg?v=a95da8b9" alt="DJ eSports Official Logo">
       </div>
       <div>
-        <div class="gov-sub">ESPORTS TOURNAMENT AUTHORITY</div>
-        <h1>DJ ESPORTS 2017</h1>
-        <div class="gov-portal-desc">Online Squad Slot Allocation & Verification System</div>
+        <div class="gov-sub" data-i18n="authoritySub">ESPORTS TOURNAMENT AUTHORITY</div>
+        <h1>DJ ESPORTS</h1>
+        <div class="gov-portal-desc" data-i18n="portalDesc">Online Squad Slot Allocation & Verification System</div>
       </div>
     </div>
 
@@ -1029,7 +1536,7 @@ input::placeholder {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
         </svg>
-        SLOT STATUS
+        <span id="openSlotsLabel">SLOT STATUS</span>
       </button>
       <button class="logout-btn" id="logoutBtn" type="button">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
@@ -1043,8 +1550,11 @@ input::placeholder {
 
 <div class="notice-strip">
   <div class="notice-inner">
-    <span class="notice-badge">NOTICE</span>
-    <span id="noticeText">Authorized Booking Code verification is mandatory to access the registration portal.</span>
+    <div class="notice-left">
+      <span class="notice-badge">NOTICE</span>
+      <span id="noticeText">Authorized Booking Code verification is mandatory to access the registration portal.</span>
+    </div>
+    <span class="countdown-pill" id="countdownTimer">⏳ Closes In: 00h : 00m : 00s</span>
   </div>
 </div>
 
@@ -1053,7 +1563,7 @@ input::placeholder {
   <!-- LOGIN GATE CARD -->
   <section class="card" id="loginCard">
     <div class="card-banner">
-      <h2>Applicant Authentication Gate</h2>
+      <h2 data-i18n="authGateTitle">Applicant Authentication Gate</h2>
       <span class="form-code">AUTH-DJ25</span>
     </div>
 
@@ -1065,14 +1575,14 @@ input::placeholder {
           </svg>
         </div>
         <div>
-          <h3>Restricted Tournament Access</h3>
-          <p>Enter the official <strong>Booking Code</strong> issued by DJ ESPORTS 2017 desk to unlock the squad registration form.</p>
+          <h3 data-i18n="restrictedTitle">Restricted Tournament Access</h3>
+          <p data-i18n-html="restrictedDesc">Enter the official <strong>Booking Code</strong> issued by DJ ESPORTS desk to unlock the squad registration form.</p>
         </div>
       </div>
 
-      <form id="loginForm">
+      <form id="loginForm" novalidate>
         <div class="field">
-          <label>Official Booking Code <span class="req">*</span></label>
+          <label for="bookingCodeInput"><span data-i18n="bookingCodeLabel">Official Booking Code</span> <span class="req">*</span></label>
           <div class="code-input-wrap">
             <div class="code-input-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
@@ -1086,7 +1596,7 @@ input::placeholder {
         <div class="login-alert" id="loginAlert"></div>
 
         <button class="btn" id="verifyLoginBtn" type="submit">
-          VERIFY CODE & ACCESS PORTAL
+          <span data-i18n="verifyBtn">VERIFY CODE & ACCESS PORTAL</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
             <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
           </svg>
@@ -1109,15 +1619,15 @@ input::placeholder {
     <div class="stepper-card" id="stepperBox">
       <div class="progress">
         <div class="progress-item active" id="step1">
-          <span>1</span>Squad Form
+          <span>1</span><em style="font-style:normal" data-i18n="step1">Squad Form</em>
         </div>
-        <div class="progress-line"></div>
+        <div class="progress-line" id="line1"></div>
         <div class="progress-item" id="step2">
-          <span>2</span>Fee Payment
+          <span>2</span><em style="font-style:normal" data-i18n="step2">Fee Challan</em>
         </div>
-        <div class="progress-line"></div>
+        <div class="progress-line" id="line2"></div>
         <div class="progress-item" id="step3">
-          <span>3</span>Submission
+          <span>3</span><em style="font-style:normal" data-i18n="step3">E-Receipt</em>
         </div>
       </div>
     </div>
@@ -1126,68 +1636,102 @@ input::placeholder {
     <main class="card" id="mainFormCard">
       <div class="card-banner">
         <h2 id="bannerTitle">Application Form — Squad Registration</h2>
-        <span class="form-code">FORM-DJ25</span>
+        <span class="form-code" id="appIdBadge">FORM-DJ25</span>
       </div>
 
       <div class="card-body">
 
         <!-- SCREEN 1 -->
         <section class="screen active" id="detailsScreen">
-          <div class="verified-pill" id="activeCodeBadge">
-            ✓ Verified Access Code: —
+          <div class="verified-row">
+            <div class="verified-pill" id="activeCodeBadge">✓ Verified Code: —</div>
+            <div class="live-quota-pill"><i class="live-dot"></i><span id="capacityBadge">25 Total Slots</span></div>
           </div>
 
-          <p class="section-desc">
-            Fields marked with (<span style="color:#dc2626;font-weight:700">*</span>) are mandatory. Enter accurate squad details as per in-game records.
+          <div class="saved-receipt-bar" id="savedReceiptBar">
+            <span id="savedReceiptLabel">📄 Previous E-Receipt available</span>
+            <button type="button" class="saved-receipt-btn" id="restoreReceiptBtn">Open E-Receipt</button>
+          </div>
+
+          <div class="quota-full-banner" id="quotaFullBanner">
+            <h3>🚫 QUOTA FULL — 25/25 SLOTS ALLOTTED</h3>
+            <p>All 25 tournament slots have been allotted. New squad registrations are currently locked.</p>
+          </div>
+
+          <p class="section-desc" data-i18n-html="formDesc">
+            Fields marked with (<span style="color:#dc2626;font-weight:700">*</span>) are mandatory. Tap the slot selector below to choose your preferred slot from the live list.
           </p>
 
-          <div class="slots-box">
-            <div class="slots-heading">
-              <strong>LIVE SLOT AVAILABILITY MATRIX</strong>
-              <span id="capacityBadge">25 Total Slots</span>
+          <!-- CLICKABLE SLOT SELECTOR OPTION (OPENS LIVE SLOT LIST MODAL) -->
+          <div class="slot-selector-box" id="openSlotPickerBtn" role="button" tabindex="0">
+            <div>
+              <div class="slot-selector-label" data-i18n="slotPickerLabel">Preferred Tournament Slot</div>
+              <div class="slot-selector-value" id="slotSelectorValue">Auto-Allot (Next Available Slot)</div>
+              <div class="slot-selector-sub" data-i18n="slotPickerSub">Tap here to open live slot list &amp; select a vacant slot</div>
             </div>
-            <div class="slots-grid" id="slotsGrid"></div>
-            <div class="slots-note">
-              <span>■ Green: Vacant Slot</span>
-              <span>■ Red: Allotted / Booked</span>
+            <div class="slot-selector-action">
+              <span data-i18n="selectSlotBtn">Select Slot</span> ▾
             </div>
           </div>
 
-          <form id="registrationForm">
-            <div class="sub-section-title">Section A: Team & Captain Particulars</div>
+          <form id="registrationForm" novalidate>
+            <div class="sub-section-title">
+              <span data-i18n="secA">Section A: Team & Captain Particulars</span>
+            </div>
 
             <div class="field">
-              <label>1. Official Squad / Team Name <span class="req">*</span></label>
+              <label for="teamName">1. <span data-i18n="lblTeam">Official Squad / Team Name</span> <span class="req">*</span></label>
               <input id="teamName" type="text" placeholder="Enter registered squad name" required>
             </div>
 
-            <div class="field">
-              <label>2. Captain Mobile Number (WhatsApp Enabled) <span class="req">*</span></label>
-              <input id="whatsappNumber" type="tel" autocomplete="tel"
-                inputmode="numeric" maxlength="10"
-                pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number" required>
+            <div class="field-row">
+              <div class="field">
+                <label for="whatsappNumber">2. <span data-i18n="lblPhone">Captain WhatsApp No.</span> <span class="req">*</span></label>
+                <input id="whatsappNumber" type="tel" autocomplete="tel"
+                  inputmode="numeric" maxlength="10"
+                  pattern="[0-9]{10}" placeholder="10-digit mobile number" required>
+              </div>
+              <div class="field">
+                <label for="captainUid">3. <span data-i18n="lblUid">Captain BGMI UID</span> <span class="opt">(Optional)</span></label>
+                <input id="captainUid" type="text" inputmode="numeric" maxlength="12" placeholder="e.g. 5123456789">
+              </div>
             </div>
 
-            <div class="sub-section-title">Section B: Playing Four (Roster Details)</div>
+            <div class="sub-section-title">
+              <span data-i18n="secB">Section B: Playing Four & Substitute Roster</span>
+            </div>
 
             <div class="players">
               <div class="player">
                 <b>P1</b>
-                <input id="player1" type="text" placeholder="Player 1 (Captain/IGL)" required>
+                <input id="player1" type="text" placeholder="Player 1 (Captain/IGL) *" required>
               </div>
               <div class="player">
                 <b>P2</b>
-                <input id="player2" type="text" placeholder="Player 2 IGN" required>
+                <input id="player2" type="text" placeholder="Player 2 IGN *" required>
               </div>
               <div class="player">
                 <b>P3</b>
-                <input id="player3" type="text" placeholder="Player 3 IGN" required>
+                <input id="player3" type="text" placeholder="Player 3 IGN *" required>
               </div>
               <div class="player">
                 <b>P4</b>
-                <input id="player4" type="text" placeholder="Player 4 IGN" required>
+                <input id="player4" type="text" placeholder="Player 4 IGN *" required>
               </div>
             </div>
+
+            <button class="sub-toggle-btn" id="toggleSubBtn" type="button">
+              + Add 5th Substitute Player (P5 — Optional)
+            </button>
+
+            <div class="sub-player-wrap" id="subPlayerWrap">
+              <div class="player">
+                <b>P5</b>
+                <input id="player5" type="text" placeholder="Player 5 (Substitute IGN — Optional)">
+              </div>
+            </div>
+
+            <div class="login-alert" id="formAlert"></div>
 
             <div class="info-box">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -1196,8 +1740,8 @@ input::placeholder {
               <span><strong>Declaration Note:</strong> Verify all player IGNs and mobile digits carefully. Incorrect entries may lead to disqualification during room verification.</span>
             </div>
 
-            <button class="btn" type="submit">
-              SAVE & PROCEED TO PAYMENT
+            <button class="btn" id="proceedToPayBtn" type="submit">
+              <span data-i18n="saveProceedBtn">SAVE & PROCEED TO FEE CHALLAN</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
@@ -1208,43 +1752,59 @@ input::placeholder {
         <!-- SCREEN 2 -->
         <section class="screen" id="paymentScreen">
           <p class="section-desc">
-            Complete the tournament registration fee payment using the authorized UPI QR code below.
+            Complete the tournament registration fee payment using the authorized UPI QR code below and enter the 12-digit UTR / Reference number.
           </p>
 
           <div class="payment-card">
             <h3>OFFICIAL UPI PAYMENT CHALLAN</h3>
             <p>Supported Apps: PhonePe · Google Pay · Paytm · BHIM UPI</p>
 
-            <div class="qr-wrapper">
-              <img src="https://pvtbro.carrd.co/assets/images/image01.jpg?v=efe9faee" alt="Tournament Payment QR Code">
+            <div class="qr-wrapper" id="qrTapBox" title="Tap for Full Screen QR">
+              <img id="qrImage" src="https://pvtbro.carrd.co/assets/images/image01.jpg?v=efe9faee" alt="Tournament Payment QR Code">
+            </div>
+
+            <div class="qr-action-row">
+              <button class="qr-mini-btn" id="openFullQrBtn" type="button">
+                🔍 Full Screen QR
+              </button>
+              <button class="qr-mini-btn" id="openUpiHelpBtn" type="button">
+                📱 Same Phone Pay Tip
+              </button>
             </div>
 
             <div class="qr-instruction">
-              Scan QR code via any UPI application and save the payment receipt screenshot.
+              Tap QR code for Full-Screen view, scan via UPI app, and note the 12-digit UTR No.
             </div>
 
             <div class="warning">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
               </svg>
-              <span><strong>Important:</strong> Payment receipt screenshot is mandatory for final slot allotment. Officials will never ask for your UPI PIN or OTP.</span>
+              <span><strong>Important:</strong> Both the 12-digit UTR number and payment screenshot are mandatory for instant slot verification.</span>
             </div>
           </div>
 
-          <label class="payment-check">
+          <div class="field">
+            <label for="utrNumber">UPI Transaction ID / 12-Digit UTR Number <span class="req">*</span></label>
+            <input id="utrNumber" type="text" inputmode="numeric" maxlength="12" placeholder="Enter 12-digit UTR / UPI Ref No. (e.g. 412345678901)" required>
+          </div>
+
+          <label class="payment-check" for="paymentDone">
             <input type="checkbox" id="paymentDone">
             <span>
               <strong>Self-Declaration of Fee Payment</strong>
-              <small>I hereby declare that I have successfully paid the entry fee via the QR code above and have the transaction screenshot ready for submission.</small>
+              <small>I hereby declare that I have paid the entry fee via the official QR code above and entered a genuine 12-digit UTR reference number.</small>
             </span>
           </label>
 
+          <div class="login-alert" id="paymentAlert"></div>
+
           <div class="status" id="paymentStatus">
-            Status: Pending Self-Declaration. Tick the checkbox above to proceed.
+            Status: Enter 12-digit UTR & tick the declaration checkbox to proceed.
           </div>
 
-          <button class="btn" id="continueBooking" disabled>
-            PROCEED TO FINAL REVIEW
+          <button class="btn" id="continueBooking" type="button" disabled>
+            PROCEED TO FINAL REVIEW & E-RECEIPT
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
               <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
             </svg>
@@ -1258,26 +1818,34 @@ input::placeholder {
         <!-- SCREEN 3 -->
         <section class="screen" id="bookingScreen">
           <p class="section-desc">
-            Review the application summary below before transmitting your registration to the tournament desk.
+            Review your official application summary below. Download your Provisional E-Receipt slip and transmit the registration to WhatsApp desk.
           </p>
 
           <table class="summary-table">
             <thead>
               <tr>
-                <th colspan="2">Application Summary Sheet</th>
+                <th colspan="2">Provisional Application Summary Sheet</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td>Application No.</td>
+                <td id="summaryAppId" style="color:#0b2c59"></td>
+              </tr>
+              <tr>
                 <td>Verified Booking Code</td>
                 <td id="summaryCode" style="color:#0b2c59"></td>
+              </tr>
+              <tr>
+                <td>Preferred Slot</td>
+                <td id="summarySlot" style="color:#ea580c"></td>
               </tr>
               <tr>
                 <td>Squad Name</td>
                 <td id="summaryTeam"></td>
               </tr>
               <tr>
-                <td>Captain Contact</td>
+                <td>Captain Contact & UID</td>
                 <td id="summaryPhone"></td>
               </tr>
               <tr>
@@ -1297,18 +1865,19 @@ input::placeholder {
                 <td id="summaryP4"></td>
               </tr>
               <tr>
-                <td>Fee Declaration</td>
-                <td style="color:#137333">✓ Confirmed by Applicant</td>
+                <td>Player 5 (Substitute)</td>
+                <td id="summaryP5"></td>
+              </tr>
+              <tr>
+                <td>UPI UTR / Ref No.</td>
+                <td id="summaryUtr" style="color:#137333"></td>
               </tr>
             </tbody>
           </table>
 
-          <div class="info-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-            </svg>
-            <span>Clicking <strong>SUBMIT BOOKING ON WHATSAPP</strong> will redirect you to the official WhatsApp desk. Please <strong>attach your payment screenshot</strong> before sending.</span>
-          </div>
+          <button class="btn btn-saffron" id="downloadReceiptBtn" type="button" style="margin-bottom:10px;">
+            ⬇ DOWNLOAD OFFICIAL E-RECEIPT (PNG)
+          </button>
 
           <button class="btn btn-green" id="sendWhatsApp" type="button">
             SUBMIT BOOKING ON WHATSAPP
@@ -1334,8 +1903,17 @@ input::placeholder {
 
       <div class="card-body">
         <p class="section-desc">
-          Live directory of allotted and vacant tournament slots synced with official records.
+          Live directory of allotted, pending, and vacant tournament slots. <strong>Tap any VACANT row</strong> to select that slot for your squad.
         </p>
+
+        <div class="slot-filter-bar">
+          <input type="text" id="slotSearchInput" placeholder="Search team name or slot number...">
+          <select id="slotStatusFilter">
+            <option value="all">All (25)</option>
+            <option value="vacant">Vacant Only</option>
+            <option value="booked">Allotted / Pending</option>
+          </select>
+        </div>
 
         <div class="slot-table-wrap">
           <table class="slot-table">
@@ -1353,10 +1931,10 @@ input::placeholder {
         <div class="slot-message" id="slotMessage">Fetching official records...</div>
 
         <button class="btn" id="refreshSlots" type="button" style="margin-top:14px">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <svg id="refreshIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
             <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
           </svg>
-          REFRESH REGISTER
+          <span id="refreshBtnText">REFRESH REGISTER</span>
         </button>
         <button class="btn btn-back" id="backFromSlots" type="button">← Return to Registration Form</button>
       </div>
@@ -1366,11 +1944,49 @@ input::placeholder {
 </div>
 
 <footer class="gov-footer">
-  <strong>DJ ESPORTS 2017 — TOURNAMENT MANAGEMENT DESK</strong><br>
+  <strong>DJ ESPORTS — TOURNAMENT MANAGEMENT DESK</strong><br>
   Official Online Slot Booking & Verification Portal · All Rights Reserved
 </footer>
 
-<!-- CONFIRMATION MODAL -->
+<!-- SLOT SELECTION LIST MODAL -->
+<div class="modal-overlay" id="slotPickerModal">
+  <div class="modal picker-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px solid #cbd5e1;padding-bottom:8px;">
+      <h2 style="margin:0;font-size:15px;">🎯 SELECT TOURNAMENT SLOT</h2>
+      <span class="form-code" id="pickerModalCount">25 Slots</span>
+    </div>
+    <p style="margin-bottom:8px;font-size:11.5px;">
+      Tap any <strong>VACANT</strong> slot below to select it for your squad, or choose Auto-Allot:
+    </p>
+    <div class="picker-list-wrap" id="slotPickerList"></div>
+    <button class="btn btn-back" id="closeSlotPickerBtn" type="button" style="margin-top:0;">CLOSE LIST</button>
+  </div>
+</div>
+
+<!-- FULL-SCREEN QR CODE VIEWER (SINGLE BOTTOM BACK BUTTON) -->
+<div class="qr-fullscreen-overlay" id="qrFullModal">
+  <div class="qr-fs-topbar">
+    <span class="qr-fs-title">DJ ESPORTS • OFFICIAL PAYMENT QR</span>
+  </div>
+
+  <div class="qr-fs-center">
+    <div class="qr-fs-card">
+      <img src="https://pvtbro.carrd.co/assets/images/image01.jpg?v=efe9faee" alt="Full Screen UPI Payment QR">
+    </div>
+    <div class="qr-fs-caption">Scan QR via PhonePe / GPay / Paytm</div>
+    <div class="qr-fs-subcaption">
+      <strong>Same Phone Tip:</strong> Press &amp; hold (long-press) the QR image above to save it to your gallery, or take a screenshot. After paying, tap <strong>BACK TO PAYMENT SCREEN</strong> below.
+    </div>
+  </div>
+
+  <div class="qr-fs-bottombar">
+    <button class="btn" id="qrBackBottomBtn" type="button" style="background:#ffffff;color:#0b2c59;border-color:#ffffff;">
+      ← BACK TO PAYMENT SCREEN
+    </button>
+  </div>
+</div>
+
+<!-- WHATSAPP CONFIRMATION MODAL -->
 <div class="modal-overlay" id="successModal">
   <div class="modal">
     <div class="modal-icon">
@@ -1380,14 +1996,16 @@ input::placeholder {
     </div>
     <h2>Application Ready for Dispatch</h2>
     <p>
-      Your registration form has been generated. Tap below to open the official WhatsApp desk.
+      Your registration dossier & E-Receipt are ready. Tap below to open the official WhatsApp desk.
       <br><br>
-      <strong>Mandatory:</strong> Attach your UPI payment screenshot in the chat before sending.
+      <strong>Mandatory:</strong> Attach your UPI payment screenshot or downloaded E-Receipt in the chat before sending.
     </p>
-    <!-- DIRECT ANCHOR LINK FOR RELIABLE MOBILE WHATSAPP REDIRECT -->
     <a class="btn btn-green" id="openWhatsApp" href="#" target="_blank" rel="noopener noreferrer">
       PROCEED TO WHATSAPP →
     </a>
+    <button class="btn btn-saffron" id="modalReceiptBtn" type="button" style="margin-top:8px;">
+      ⬇ Download Official E-Receipt Slip
+    </button>
     <button class="btn btn-back" id="copyMsgBtn" type="button">
       Copy Registration Message
     </button>
@@ -1398,126 +2016,166 @@ input::placeholder {
   </div>
 </div>
 
+<!-- OFFICIAL RULEBOOK, SCHEDULE & POINTS TABLE MODAL -->
+<div class="modal-overlay" id="rulesModal">
+  <div class="modal rules-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;border-bottom:1px solid #cbd5e1;padding-bottom:8px;">
+      <h2 style="margin:0;font-size:15px;">📜 OFFICIAL GAZETTE: RULES & SCHEDULE</h2>
+      <span class="form-code">CIRCULAR-2026</span>
+    </div>
+
+    <table class="pts-grid">
+      <thead>
+        <tr>
+          <th>Match</th>
+          <th>Map</th>
+          <th>Lobby Check-in</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Match 01</td><td>Erangel (Squad)</td><td>15 Mins Before Start</td></tr>
+        <tr><td>Match 02</td><td>Miramar (Squad)</td><td>10 Mins After Match 1</td></tr>
+        <tr><td>Match 03</td><td>Sanhok / Erangel</td><td>10 Mins After Match 2</td></tr>
+      </tbody>
+    </table>
+
+    <ul class="rules-list">
+      <li><strong>Room ID & Password:</strong> Shared 15 minutes before match start time to verified captains.</li>
+      <li><strong>Slot Discipline:</strong> Squads must sit strictly in their allotted slot number (Slot 1 to 25). Sitting in another squad's slot leads to direct kick.</li>
+      <li><strong>Fair Play Policy:</strong> Emulators, iPads (if restricted), hacks, or teaming will result in immediate permanent ban without refund.</li>
+      <li><strong>Proof Requirement:</strong> All 4 players must record or take end-screen screenshots for dispute verification.</li>
+    </ul>
+
+    <table class="pts-grid">
+      <thead>
+        <tr>
+          <th>Placement Rank</th>
+          <th>Points</th>
+          <th>Finish Bonus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>#1 (WWCD)</td><td>10 Pts</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#2 Place</td><td>6 Pts</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#3 Place</td><td>5 Pts</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#4 Place</td><td>4 Pts</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#5 Place</td><td>3 Pts</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#6 Place</td><td>2 Pts</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#7 – #8 Place</td><td>1 Pt</td><td>1 Finish = 1 Point</td></tr>
+        <tr><td>#9 – #25 Place</td><td>0 Pts</td><td>1 Finish = 1 Point</td></tr>
+      </tbody>
+    </table>
+
+    <button class="btn" id="closeRulesBtn" type="button">ACKNOWLEDGE & CLOSE</button>
+  </div>
+</div>
+
 <script>
-const ADMIN_WHATSAPP = "919813565729";
+const ADMIN_WHATSAPP = "919034165729";
 const LOGIN_CODES_API_URL = "https://docs.google.com/spreadsheets/d/1kLeQRiNJh1mOtOEUwmZpTzst-7o4OTqmITFf5GtEsVg/export?format=csv";
 const SLOT_API_URL = "https://docs.google.com/spreadsheets/d/1yU_X1vsQuCpJ0RMzw9V6PU83NGSzobf1yg_qE3Im6K8/export?format=csv";
 
 let verifiedBookingCode = "";
 let generatedWhatsappMessage = "";
+let lastFormScreen = "details";
+let isFetchingSlots = false;
+let preferredSlotNumber = null;
+let occupiedSlotsSet = new Set();
+let allottedTeamNamesSet = new Set();
+let applicationId = sessionStorage.getItem("dj_app_id") || ("DJE-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random() * 9000));
+sessionStorage.setItem("dj_app_id", applicationId);
 
+let cachedSlotItems = [];
+let currentLang = sessionStorage.getItem("dj_lang") || "en";
+
+// LANGUAGE DICTIONARY (ENGLISH / HINDI)
+const i18nDict = {
+  en: {
+    langBtn: "🌐 हिंदी / EN",
+    portalTag: "OFFICIAL TOURNAMENT PORTAL",
+    rulesBtn: "RULES & SCHEDULE",
+    authoritySub: "ESPORTS TOURNAMENT AUTHORITY",
+    portalDesc: "Online Squad Slot Allocation & Verification System",
+    authGateTitle: "Applicant Authentication Gate",
+    restrictedTitle: "Restricted Tournament Access",
+    restrictedDesc: "Enter the official <strong>Booking Code</strong> issued by DJ ESPORTS desk to unlock the squad registration form.",
+    bookingCodeLabel: "Official Booking Code",
+    verifyBtn: "VERIFY CODE & ACCESS PORTAL",
+    step1: "Squad Form",
+    step2: "Fee Challan",
+    step3: "E-Receipt",
+    formDesc: "Fields marked with (<span style=\"color:#dc2626;font-weight:700\">*</span>) are mandatory. Tap the slot option below to open the live slot list and select a slot.",
+    slotPickerLabel: "Preferred Tournament Slot",
+    slotPickerSub: "Tap here to open live slot list & select a vacant slot",
+    selectSlotBtn: "Select Slot",
+    secA: "Section A: Team & Captain Particulars",
+    lblTeam: "Official Squad / Team Name",
+    lblPhone: "Captain WhatsApp No.",
+    lblUid: "Captain BGMI UID",
+    secB: "Section B: Playing Four & Substitute Roster",
+    saveProceedBtn: "SAVE & PROCEED TO FEE CHALLAN"
+  },
+  hi: {
+    langBtn: "🌐 English / हिं",
+    portalTag: "आधिकारिक टूर्नामेंट पोर्टल",
+    rulesBtn: "नियम और शेड्यूल",
+    authoritySub: "ई-स्पोर्ट्स टूर्नामेंट प्राधिकरण",
+    portalDesc: "ऑनलाइन स्क्वाड स्लॉट आवंटन और सत्यापन प्रणाली",
+    authGateTitle: "आवेदक प्रमाणीकरण द्वार",
+    restrictedTitle: "प्रतिबंधित टूर्नामेंट प्रवेश",
+    restrictedDesc: "स्क्वाड पंजीकरण फॉर्म खोलने के लिए DJ ESPORTS द्वारा जारी आधिकारिक <strong>बुकिंग कोड</strong> दर्ज करें।",
+    bookingCodeLabel: "आधिकारिक बुकिंग कोड",
+    verifyBtn: "कोड सत्यापित करें और पोर्टल खोलें",
+    step1: "स्क्वाड फॉर्म",
+    step2: "फीस चालान",
+    step3: "ई-रसीद",
+    formDesc: "(<span style=\"color:#dc2626;font-weight:700\">*</span>) वाले सभी कॉलम अनिवार्य हैं। स्लॉट लिस्ट खोलने और स्लॉट चुनने के लिए नीचे दिए गए विकल्प पर टैप करें।",
+    slotPickerLabel: "पसंदीदा टूर्नामेंट स्लॉट",
+    slotPickerSub: "लाइव स्लॉट लिस्ट खोलने और खाली स्लॉट चुनने के लिए यहाँ टैप करें",
+    selectSlotBtn: "स्लॉट चुनें",
+    secA: "भाग A: टीम और कप्तान का विवरण",
+    lblTeam: "आधिकारिक स्क्वाड / टीम का नाम",
+    lblPhone: "कप्तान व्हाट्सएप नंबर",
+    lblUid: "कप्तान BGMI UID",
+    secB: "भाग B: मुख्य 4 खिलाड़ी और सब्स्टीट्यूट",
+    saveProceedBtn: "विवरण सहेजें और भुगतान पर आगे बढ़ें"
+  }
+};
+
+// DOM ELEMENTS
 const loginCard = document.getElementById("loginCard");
 const portalWrapper = document.getElementById("portalWrapper");
 const loginForm = document.getElementById("loginForm");
 const bookingCodeInput = document.getElementById("bookingCodeInput");
 const loginAlert = document.getElementById("loginAlert");
+const formAlert = document.getElementById("formAlert");
+const paymentAlert = document.getElementById("paymentAlert");
 const verifyLoginBtn = document.getElementById("verifyLoginBtn");
 const openSlotsBtn = document.getElementById("openSlots");
+const openSlotsLabel = document.getElementById("openSlotsLabel");
 const logoutBtn = document.getElementById("logoutBtn");
 const noticeText = document.getElementById("noticeText");
 const activeCodeBadge = document.getElementById("activeCodeBadge");
-
-function setLoginAlert(type, msg) {
-  loginAlert.className = "login-alert " + type;
-  loginAlert.textContent = msg;
-}
-
-function parseCSVRows(text) {
-  const lines = text.split(/\r?\n/);
-  const rows = [];
-  for (let i = 0; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const cols = lines[i].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
-    rows.push(cols);
-  }
-  return rows;
-}
-
-function unlockPortal(code) {
-  verifiedBookingCode = code;
-  sessionStorage.setItem("dj_verified_code", code);
-
-  loginCard.style.display = "none";
-  portalWrapper.style.display = "block";
-  openSlotsBtn.style.display = "inline-flex";
-  logoutBtn.style.display = "inline-flex";
-
-  activeCodeBadge.textContent = "✓ Verified Booking Code: " + code;
-  noticeText.textContent = "All slots are allotted strictly on a First-Come, First-Served basis after payment verification.";
-
-  showScreen("details");
-  loadSlots();
-}
-
-function lockPortal() {
-  verifiedBookingCode = "";
-  sessionStorage.removeItem("dj_verified_code");
-
-  portalWrapper.style.display = "none";
-  openSlotsBtn.style.display = "none";
-  logoutBtn.style.display = "none";
-  loginCard.style.display = "block";
-  bookingCodeInput.value = "";
-  loginAlert.className = "login-alert";
-  noticeText.textContent = "Authorized Booking Code verification is mandatory to access the registration portal.";
-}
-
-loginForm.addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const enteredCode = bookingCodeInput.value.trim();
-
-  if (!enteredCode) {
-    setLoginAlert("error", "Please enter a valid Booking Code.");
-    return;
-  }
-
-  verifyLoginBtn.disabled = true;
-  verifyLoginBtn.textContent = "VERIFYING WITH OFFICIAL SERVER...";
-  setLoginAlert("loading", "Checking Booking Code in official Google Sheets database...");
-
-  try {
-    const response = await fetch(LOGIN_CODES_API_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error("HTTP " + response.status);
-
-    const csvText = await response.text();
-    const rows = parseCSVRows(csvText);
-
-    const validCodes = new Set();
-    for (let i = 1; i < rows.length; i++) {
-      const col1 = (rows[i][0] || "").trim().toLowerCase();
-      const col2 = (rows[i][1] || "").trim().toLowerCase();
-      if (col1) validCodes.add(col1);
-      if (col2) validCodes.add(col2);
-    }
-
-    if (validCodes.has(enteredCode.toLowerCase())) {
-      setLoginAlert("success", "✓ Code Verified! Unlocking registration portal...");
-      setTimeout(() => {
-        unlockPortal(enteredCode);
-      }, 450);
-    } else {
-      setLoginAlert("error", "✕ Invalid Booking Code. Please check your code or contact DJ ESPORTS 2017 admin.");
-    }
-  } catch (err) {
-    setLoginAlert("error", "Connection failed! Please ensure the Google Sheet is set to 'Anyone with the link can view' and try again.");
-  } finally {
-    verifyLoginBtn.disabled = false;
-    verifyLoginBtn.innerHTML = `VERIFY CODE & ACCESS PORTAL <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
-  }
-});
-
-logoutBtn.addEventListener("click", lockPortal);
-
-const savedCode = sessionStorage.getItem("dj_verified_code");
-if (savedCode) {
-  unlockPortal(savedCode);
-}
+const openSlotPickerBtn = document.getElementById("openSlotPickerBtn");
+const slotSelectorValue = document.getElementById("slotSelectorValue");
+const appIdBadge = document.getElementById("appIdBadge");
+const quotaFullBanner = document.getElementById("quotaFullBanner");
+const proceedToPayBtn = document.getElementById("proceedToPayBtn");
+const savedReceiptBar = document.getElementById("savedReceiptBar");
+const savedReceiptLabel = document.getElementById("savedReceiptLabel");
 
 const form = document.getElementById("registrationForm");
+const utrInput = document.getElementById("utrNumber");
 const paymentCheckbox = document.getElementById("paymentDone");
 const continueBooking = document.getElementById("continueBooking");
 const paymentStatus = document.getElementById("paymentStatus");
 const bannerTitle = document.getElementById("bannerTitle");
+const stepperBox = document.getElementById("stepperBox");
+const mainFormCard = document.getElementById("mainFormCard");
+
+const toggleSubBtn = document.getElementById("toggleSubBtn");
+const subPlayerWrap = document.getElementById("subPlayerWrap");
+const player5Input = document.getElementById("player5");
 
 const screens = {
   details: document.getElementById("detailsScreen"),
@@ -1532,141 +2190,755 @@ const steps = [
   document.getElementById("step3")
 ];
 
-const slotsGrid = document.getElementById("slotsGrid");
-const slotBars = [];
+const lines = [
+  document.getElementById("line1"),
+  document.getElementById("line2")
+];
 
-for (let i = 1; i <= 25; i++) {
-  const bar = document.createElement("div");
-  bar.className = "slot-bar";
-  bar.title = "Slot " + i + " (Vacant)";
-  slotsGrid.appendChild(bar);
-  slotBars.push(bar);
+const slotList = document.getElementById("slotList");
+const slotCount = document.getElementById("slotCount");
+const slotMessage = document.getElementById("slotMessage");
+const capacityBadge = document.getElementById("capacityBadge");
+const refreshSlotsBtn = document.getElementById("refreshSlots");
+const refreshIcon = document.getElementById("refreshIcon");
+const refreshBtnText = document.getElementById("refreshBtnText");
+const slotSearchInput = document.getElementById("slotSearchInput");
+const slotStatusFilter = document.getElementById("slotStatusFilter");
+
+const slotPickerModal = document.getElementById("slotPickerModal");
+const slotPickerList = document.getElementById("slotPickerList");
+const pickerModalCount = document.getElementById("pickerModalCount");
+
+const openWhatsAppLink = document.getElementById("openWhatsApp");
+const copyMsgBtn = document.getElementById("copyMsgBtn");
+const copyStatus = document.getElementById("copyStatus");
+const successModal = document.getElementById("successModal");
+const rulesModal = document.getElementById("rulesModal");
+const qrFullModal = document.getElementById("qrFullModal");
+const langToggleBtn = document.getElementById("langToggleBtn");
+
+appIdBadge.textContent = applicationId;
+
+// FETCH WITH TIMEOUT + RETRY HELPER
+async function fetchWithRetry(url, timeoutMs = 8000, retries = 1) {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { cache: "no-store", signal: controller.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return await res.text();
+    } catch (err) {
+      clearTimeout(timer);
+      if (attempt === retries) throw err;
+    }
+  }
+}
+
+// SLOT PICKER MODAL CONTROLS
+openSlotPickerBtn.addEventListener("click", () => {
+  slotPickerModal.classList.add("active");
+  if (cachedSlotItems.length === 0) {
+    loadSlots();
+  }
+});
+
+document.getElementById("closeSlotPickerBtn").addEventListener("click", () => {
+  slotPickerModal.classList.remove("active");
+});
+
+slotPickerModal.addEventListener("click", (e) => {
+  if (e.target === slotPickerModal) slotPickerModal.classList.remove("active");
+});
+
+// FULL-SCREEN QR VIEWER CONTROLS (SINGLE BOTTOM BACK BUTTON)
+function openFullScreenQr() {
+  qrFullModal.classList.add("active");
+}
+
+function closeFullScreenQr() {
+  qrFullModal.classList.remove("active");
+}
+
+document.getElementById("openFullQrBtn").addEventListener("click", openFullScreenQr);
+document.getElementById("qrTapBox").addEventListener("click", openFullScreenQr);
+document.getElementById("qrBackBottomBtn").addEventListener("click", closeFullScreenQr);
+
+// LANGUAGE SWITCHER
+function applyLanguage(lang) {
+  currentLang = lang;
+  sessionStorage.setItem("dj_lang", lang);
+  langToggleBtn.textContent = i18nDict[lang].langBtn;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (i18nDict[lang][key]) el.textContent = i18nDict[lang][key];
+  });
+
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const key = el.getAttribute("data-i18n-html");
+    if (i18nDict[lang][key]) el.innerHTML = i18nDict[lang][key];
+  });
+}
+
+langToggleBtn.addEventListener("click", () => {
+  applyLanguage(currentLang === "en" ? "hi" : "en");
+});
+applyLanguage(currentLang);
+
+// RULES MODAL
+document.getElementById("openRulesBtn").addEventListener("click", () => rulesModal.classList.add("active"));
+document.getElementById("closeRulesBtn").addEventListener("click", () => rulesModal.classList.remove("active"));
+rulesModal.addEventListener("click", (e) => {
+  if (e.target === rulesModal) rulesModal.classList.remove("active");
+});
+
+// LIVE DAILY COUNTDOWN TIMER
+function updateCountdown() {
+  const now = new Date();
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+  const diff = Math.max(0, end - now);
+  const hrs = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, "0");
+  const mins = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, "0");
+  const secs = String(Math.floor((diff / 1000) % 60)).padStart(2, "0");
+  document.getElementById("countdownTimer").textContent = `⏳ Closes In: ${hrs}h : ${mins}m : ${secs}s`;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// SLOT SELECTION LOGIC
+function selectPreferredSlot(slotNum) {
+  if (slotNum !== null && occupiedSlotsSet.has(slotNum)) {
+    setAlert(formAlert, "error", `Slot #${String(slotNum).padStart(2, "0")} is already allotted or pending. Please choose a Vacant slot.`);
+    return false;
+  }
+  setAlert(formAlert, "", "");
+  preferredSlotNumber = slotNum;
+  updateSelectedSlotUI();
+  saveDraftForm();
+  return true;
+}
+
+function updateSelectedSlotUI() {
+  if (preferredSlotNumber) {
+    const formatted = `SLOT-${String(preferredSlotNumber).padStart(2, "0")}`;
+    slotSelectorValue.textContent = `✓ ${formatted} (Selected)`;
+    openSlotPickerBtn.classList.add("has-slot");
+  } else {
+    slotSelectorValue.textContent = "Auto-Allot (Next Available Slot)";
+    openSlotPickerBtn.classList.remove("has-slot");
+  }
+
+  // Update selection highlight inside modal list if open
+  slotPickerList.querySelectorAll(".picker-item").forEach(item => {
+    const itemSlot = item.getAttribute("data-slot");
+    const isMatch = (preferredSlotNumber === null && itemSlot === "auto") || (Number(itemSlot) === preferredSlotNumber);
+    item.classList.toggle("selected", isMatch);
+  });
+}
+
+// SUBSTITUTE PLAYER P5 TOGGLE
+toggleSubBtn.addEventListener("click", () => {
+  const isOpen = subPlayerWrap.classList.toggle("active");
+  toggleSubBtn.textContent = isOpen
+    ? "− Remove 5th Substitute Player (P5)"
+    : "+ Add 5th Substitute Player (P5 — Optional)";
+  if (!isOpen) {
+    player5Input.value = "";
+    saveDraftForm();
+  }
+});
+
+// SAME PHONE QR SCAN HELPER
+document.getElementById("openUpiHelpBtn").addEventListener("click", () => {
+  setAlert(paymentAlert, "loading", "Tip: Tap 'Full Screen QR' above -> press & hold QR image to Save (or take a screenshot) -> open PhonePe/GPay -> 'Scan any QR' -> select from Gallery.");
+});
+
+// ROBUST CSV PARSER
+function parseCSVLine(line) {
+  const result = [];
+  let cur = "";
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        cur += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === "," && !inQuotes) {
+      result.push(cur.trim());
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur.trim());
+  return result.map(val => val.replace(/^"|"$/g, "").trim());
+}
+
+function parseCSVRows(text) {
+  const lines = text.split(/\r?\n/);
+  const rows = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    rows.push(parseCSVLine(lines[i]));
+  }
+  return rows;
+}
+
+function setAlert(el, type, msg) {
+  if (!type) {
+    el.className = "login-alert";
+    el.textContent = "";
+    return;
+  }
+  el.className = "login-alert " + type;
+  el.textContent = msg;
 }
 
 function showScreen(name) {
   Object.values(screens).forEach(screen => screen.classList.remove("active"));
-  screens[name].classList.add("active");
+  if (screens[name]) {
+    screens[name].classList.add("active");
+  }
 
   const isSlots = name === "slots";
-  document.getElementById("stepperBox").style.display = isSlots ? "none" : "block";
-  document.getElementById("mainFormCard").style.display = isSlots ? "none" : "block";
+  stepperBox.style.display = isSlots ? "none" : "block";
+  mainFormCard.style.display = isSlots ? "none" : "block";
+
+  openSlotsBtn.classList.toggle("active-view", isSlots);
+  openSlotsLabel.textContent = isSlots ? "← FORM VIEW" : "SLOT STATUS";
 
   if (!isSlots) {
+    lastFormScreen = name;
     const titles = {
       details: "Application Form — Squad Registration",
       payment: "Step 2 — Entry Fee Payment Challan",
-      booking: "Step 3 — Final Review & Submission"
+      booking: "Step 3 — Final Review & Official E-Receipt"
     };
-    bannerTitle.textContent = titles[name];
+    bannerTitle.textContent = titles[name] || titles.details;
 
     const current = name === "details" ? 0 : name === "payment" ? 1 : 2;
     steps.forEach((step, index) => {
       step.classList.toggle("active", index === current);
       step.classList.toggle("done", index < current);
     });
+    lines.forEach((line, index) => {
+      line.classList.toggle("done", index < current);
+    });
   }
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+steps.forEach((stepEl, idx) => {
+  stepEl.addEventListener("click", () => {
+    if (stepEl.classList.contains("done")) {
+      if (idx === 0) showScreen("details");
+      if (idx === 1) showScreen("payment");
+    }
+  });
+});
+
+function checkSavedReceiptRecovery() {
+  try {
+    const raw = localStorage.getItem("dj_last_submission");
+    if (!raw) {
+      savedReceiptBar.classList.remove("active");
+      return;
+    }
+    const saved = JSON.parse(raw);
+    if (saved && saved.team && saved.utr) {
+      savedReceiptLabel.textContent = `📄 Last E-Receipt: ${saved.team} (${saved.appId})`;
+      savedReceiptBar.classList.add("active");
+    }
+  } catch (e) {}
+}
+
+document.getElementById("restoreReceiptBtn").addEventListener("click", () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem("dj_last_submission") || "{}");
+    if (!saved.team) return;
+    applicationId = saved.appId || applicationId;
+    appIdBadge.textContent = applicationId;
+    document.getElementById("teamName").value = saved.team || "";
+    document.getElementById("whatsappNumber").value = saved.phone || "";
+    document.getElementById("captainUid").value = saved.uid !== "N/A" ? (saved.uid || "") : "";
+    document.getElementById("player1").value = saved.players?.[0] || "";
+    document.getElementById("player2").value = saved.players?.[1] || "";
+    document.getElementById("player3").value = saved.players?.[2] || "";
+    document.getElementById("player4").value = saved.players?.[3] || "";
+    if (saved.players?.[4] && saved.players[4] !== "None") {
+      subPlayerWrap.classList.add("active");
+      document.getElementById("player5").value = saved.players[4];
+    }
+    utrInput.value = saved.utr || "";
+    paymentCheckbox.checked = true;
+    updatePaymentButtonState();
+    populateSummarySheet(saved);
+    showScreen("booking");
+  } catch (e) {}
+});
+
+function unlockPortal(code) {
+  verifiedBookingCode = code;
+  sessionStorage.setItem("dj_verified_code", code);
+
+  loginCard.style.display = "none";
+  portalWrapper.style.display = "block";
+  openSlotsBtn.style.display = "inline-flex";
+  logoutBtn.style.display = "inline-flex";
+
+  activeCodeBadge.textContent = "✓ Verified Code: " + code;
+  noticeText.textContent = "All slots are allotted strictly on a First-Come, First-Served basis after UTR & fee verification.";
+
+  restoreDraftForm();
+  checkSavedReceiptRecovery();
+  showScreen("details");
+  loadSlots();
+}
+
+function lockPortal() {
+  verifiedBookingCode = "";
+  sessionStorage.removeItem("dj_verified_code");
+
+  portalWrapper.style.display = "none";
+  openSlotsBtn.style.display = "none";
+  logoutBtn.style.display = "none";
+  loginCard.style.display = "block";
+  bookingCodeInput.value = "";
+  setAlert(loginAlert, "", "");
+  setAlert(formAlert, "", "");
+  successModal.classList.remove("active");
+  slotPickerModal.classList.remove("active");
+  closeFullScreenQr();
+  noticeText.textContent = "Authorized Booking Code verification is mandatory to access the registration portal.";
+}
+
+loginForm.addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const enteredCode = bookingCodeInput.value.trim();
+
+  if (!enteredCode) {
+    setAlert(loginAlert, "error", "Please enter a valid Booking Code.");
+    bookingCodeInput.classList.add("input-error", "shake");
+    setTimeout(() => bookingCodeInput.classList.remove("shake"), 400);
+    bookingCodeInput.focus();
+    return;
+  }
+
+  bookingCodeInput.classList.remove("input-error");
+  verifyLoginBtn.disabled = true;
+  verifyLoginBtn.textContent = "VERIFYING WITH OFFICIAL SERVER...";
+  setAlert(loginAlert, "loading", "Checking Booking Code in official Google Sheets database...");
+
+  try {
+    const url = LOGIN_CODES_API_URL + "&_t=" + Date.now();
+    const csvText = await fetchWithRetry(url, 8000, 1);
+    const rows = parseCSVRows(csvText);
+
+    const validCodes = new Set();
+    const ignoredHeaders = new Set(["code", "booking code", "booking_code", "codes", "sr no", "s.no", "slot"]);
+
+    for (let i = 0; i < rows.length; i++) {
+      for (let c = 0; c < Math.min(rows[i].length, 3); c++) {
+        const cell = (rows[i][c] || "").trim().toLowerCase();
+        if (cell && !ignoredHeaders.has(cell)) {
+          validCodes.add(cell);
+        }
+      }
+    }
+
+    if (validCodes.has(enteredCode.toLowerCase())) {
+      setAlert(loginAlert, "success", "✓ Code Verified! Unlocking registration portal...");
+      setTimeout(() => {
+        unlockPortal(enteredCode);
+      }, 280);
+    } else {
+      setAlert(loginAlert, "error", "✕ Invalid Booking Code. Please check your code or contact DJ ESPORTS admin.");
+      bookingCodeInput.classList.add("input-error", "shake");
+      setTimeout(() => bookingCodeInput.classList.remove("shake"), 400);
+    }
+  } catch (err) {
+    setAlert(loginAlert, "error", "Network timeout or connection failed! Check your internet connection and ensure the Google Sheet is publicly viewable.");
+  } finally {
+    verifyLoginBtn.disabled = false;
+    verifyLoginBtn.innerHTML = `<span data-i18n="verifyBtn">${i18nDict[currentLang].verifyBtn}</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+  }
+});
+
+logoutBtn.addEventListener("click", lockPortal);
+
+// INPUT FILTERS & DRAFT STORAGE
+const whatsappInput = document.getElementById("whatsappNumber");
+const captainUidInput = document.getElementById("captainUid");
+const draftFieldIds = ["teamName", "whatsappNumber", "captainUid", "player1", "player2", "player3", "player4", "player5", "utrNumber"];
+
+whatsappInput.addEventListener("input", function () {
+  let digits = this.value.replace(/\D/g, "");
+  if (digits.length > 10 && digits.startsWith("91")) digits = digits.slice(2);
+  this.value = digits.slice(0, 10);
+  this.classList.remove("input-error");
+  saveDraftForm();
+});
+
+captainUidInput.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "").slice(0, 12);
+  saveDraftForm();
+});
+
+utrInput.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "").slice(0, 12);
+  this.classList.remove("input-error");
+  setAlert(paymentAlert, "", "");
+  updatePaymentButtonState();
+  saveDraftForm();
+});
+
+draftFieldIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("input", () => {
+    el.classList.remove("input-error");
+    setAlert(formAlert, "", "");
+    saveDraftForm();
+  });
+});
+
+function saveDraftForm() {
+  const draft = { preferredSlotNumber };
+  draftFieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) draft[id] = el.value;
+  });
+  sessionStorage.setItem("dj_form_draft", JSON.stringify(draft));
+}
+
+function restoreDraftForm() {
+  try {
+    const raw = sessionStorage.getItem("dj_form_draft");
+    if (!raw) return;
+    const draft = JSON.parse(raw);
+    draftFieldIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && draft[id]) el.value = draft[id];
+    });
+    if (draft.player5) {
+      subPlayerWrap.classList.add("active");
+      toggleSubBtn.textContent = "− Remove 5th Substitute Player (P5)";
+    }
+    if (draft.preferredSlotNumber) {
+      preferredSlotNumber = Number(draft.preferredSlotNumber);
+      updateSelectedSlotUI();
+    }
+    updatePaymentButtonState();
+  } catch (e) {}
 }
 
 function getDetails() {
   return {
+    appId: applicationId,
     code: verifiedBookingCode,
+    slotText: preferredSlotNumber ? `SLOT-${String(preferredSlotNumber).padStart(2, "0")}` : "Auto-Allot (Next Vacant)",
     team: document.getElementById("teamName").value.trim(),
     phone: document.getElementById("whatsappNumber").value.trim(),
+    uid: document.getElementById("captainUid").value.trim() || "N/A",
+    utr: utrInput.value.trim(),
     players: [
       document.getElementById("player1").value.trim(),
       document.getElementById("player2").value.trim(),
       document.getElementById("player3").value.trim(),
-      document.getElementById("player4").value.trim()
+      document.getElementById("player4").value.trim(),
+      document.getElementById("player5").value.trim() || "None"
     ]
   };
 }
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-  if (!form.reportValidity()) return;
+  setAlert(formAlert, "", "");
+
+  const requiredIds = ["teamName", "whatsappNumber", "player1", "player2", "player3", "player4"];
+  for (const id of requiredIds) {
+    const input = document.getElementById(id);
+    if (!input.value.trim()) {
+      input.classList.add("input-error", "shake");
+      setTimeout(() => input.classList.remove("shake"), 400);
+      input.focus();
+      setAlert(formAlert, "error", "Please fill in all mandatory squad details (*).");
+      return;
+    }
+  }
 
   const details = getDetails();
-  if (!/^[0-9]{10}$/.test(details.phone)) {
-    alert("Please enter a valid 10-digit mobile number.");
+  if (!/^[6-9][0-9]{9}$/.test(details.phone)) {
+    whatsappInput.classList.add("input-error", "shake");
+    setTimeout(() => whatsappInput.classList.remove("shake"), 400);
+    whatsappInput.focus();
+    setAlert(formAlert, "error", "Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.");
     return;
   }
+
+  if (allottedTeamNamesSet.has(details.team.toLowerCase())) {
+    const teamInput = document.getElementById("teamName");
+    teamInput.classList.add("input-error", "shake");
+    setTimeout(() => teamInput.classList.remove("shake"), 400);
+    teamInput.focus();
+    setAlert(formAlert, "error", `Squad "${details.team}" is already registered in the live Slot Register.`);
+    return;
+  }
+
+  const enteredPlayers = details.players.filter(p => p && p !== "None").map(p => p.toLowerCase());
+  const uniquePlayers = new Set(enteredPlayers);
+  if (uniquePlayers.size !== enteredPlayers.length) {
+    setAlert(formAlert, "error", "Duplicate player IGN detected! Each player in the squad must have a unique in-game name.");
+    return;
+  }
+
+  if (preferredSlotNumber && occupiedSlotsSet.has(preferredSlotNumber)) {
+    selectPreferredSlot(null);
+    setAlert(formAlert, "error", "Your previously selected slot was just allotted! Please pick another vacant slot.");
+    return;
+  }
+
+  saveDraftForm();
   showScreen("payment");
 });
 
-paymentCheckbox.addEventListener("change", function () {
-  const paid = this.checked;
-  continueBooking.disabled = !paid;
-  paymentStatus.classList.toggle("ready", paid);
-  paymentStatus.textContent = paid
-    ? "Status: Payment Self-Declaration Verified. You may proceed."
-    : "Status: Pending Self-Declaration. Tick the checkbox above to proceed.";
-});
+function updatePaymentButtonState() {
+  const paid = paymentCheckbox.checked;
+  const validUtr = /^[0-9]{12}$/.test(utrInput.value.trim());
+  const ready = paid && validUtr;
 
-continueBooking.addEventListener("click", function () {
-  if (!paymentCheckbox.checked) {
-    alert("Please complete the payment declaration first.");
-    return;
+  continueBooking.disabled = !ready;
+  paymentStatus.classList.toggle("ready", ready);
+
+  if (ready) {
+    paymentStatus.textContent = "✓ Status: 12-Digit UTR & Self-Declaration Verified. You may proceed.";
+  } else if (!validUtr) {
+    paymentStatus.textContent = "Status: Enter a valid 12-digit numeric UPI UTR / Reference number above.";
+  } else {
+    paymentStatus.textContent = "Status: Tick the self-declaration checkbox above to proceed.";
   }
+}
 
-  const d = getDetails();
-  document.getElementById("summaryCode").textContent = d.code;
+paymentCheckbox.addEventListener("change", updatePaymentButtonState);
+
+function populateSummarySheet(d) {
+  document.getElementById("summaryAppId").textContent = d.appId;
+  document.getElementById("summaryCode").textContent = d.code || verifiedBookingCode;
+  document.getElementById("summarySlot").textContent = d.slotText;
   document.getElementById("summaryTeam").textContent = d.team;
-  document.getElementById("summaryPhone").textContent = d.phone;
+  document.getElementById("summaryPhone").textContent = d.phone + (d.uid !== "N/A" ? ` (UID: ${d.uid})` : "");
   document.getElementById("summaryP1").textContent = d.players[0];
   document.getElementById("summaryP2").textContent = d.players[1];
   document.getElementById("summaryP3").textContent = d.players[2];
   document.getElementById("summaryP4").textContent = d.players[3];
+  document.getElementById("summaryP5").textContent = d.players[4];
+  document.getElementById("summaryUtr").textContent = d.utr + " (✓ Declared)";
+}
 
+continueBooking.addEventListener("click", function () {
+  const d = getDetails();
+  if (!/^[0-9]{12}$/.test(d.utr)) {
+    utrInput.classList.add("input-error", "shake");
+    setTimeout(() => utrInput.classList.remove("shake"), 400);
+    utrInput.focus();
+    setAlert(paymentAlert, "error", "Please enter a valid 12-digit UPI UTR / Reference Number.");
+    return;
+  }
+  if (!paymentCheckbox.checked) return;
+
+  localStorage.setItem("dj_last_submission", JSON.stringify(d));
+  checkSavedReceiptRecovery();
+  populateSummarySheet(d);
   showScreen("booking");
 });
 
 document.getElementById("backDetails").addEventListener("click", () => showScreen("details"));
 document.getElementById("backPayment").addEventListener("click", () => showScreen("payment"));
 
-// WHATSAPP URL GENERATOR & MODAL OPENER
-const openWhatsAppLink = document.getElementById("openWhatsApp");
-const copyMsgBtn = document.getElementById("copyMsgBtn");
-const copyStatus = document.getElementById("copyStatus");
+// HTML5 CANVAS OFFICIAL E-RECEIPT GENERATOR (PNG DOWNLOAD)
+function generateAndDownloadReceipt() {
+  const d = getDetails();
+  localStorage.setItem("dj_last_submission", JSON.stringify(d));
+  checkSavedReceiptRecovery();
 
+  const canvas = document.createElement("canvas");
+  canvas.width = 800;
+  canvas.height = 980;
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#ff6b00";
+  ctx.fillRect(0, 0, 267, 10);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(267, 0, 266, 10);
+  ctx.fillStyle = "#138808";
+  ctx.fillRect(533, 0, 267, 10);
+
+  ctx.fillStyle = "#0b2c59";
+  ctx.fillRect(0, 10, 800, 115);
+  ctx.fillStyle = "#ff6b00";
+  ctx.fillRect(0, 125, 800, 5);
+
+  ctx.fillStyle = "#cbd5e1";
+  ctx.font = "bold 13px Inter, sans-serif";
+  ctx.fillText("ESPORTS TOURNAMENT AUTHORITY • OFFICIAL E-CHALLAN & ADMIT SLIP", 36, 45);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "800 30px Inter, sans-serif";
+  ctx.fillText("DJ ESPORTS — PROVISIONAL E-RECEIPT", 36, 82);
+
+  ctx.fillStyle = "#e2e8f0";
+  ctx.font = "600 14px Inter, sans-serif";
+  ctx.fillText("Online Squad Slot Allocation & Verification System (Quota: 25 Teams)", 36, 108);
+
+  ctx.fillStyle = "#f8fafc";
+  ctx.fillRect(36, 150, 728, 54);
+  ctx.strokeStyle = "#cbd5e1";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(36, 150, 728, 54);
+
+  const nowStr = new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+  ctx.fillStyle = "#0b2c59";
+  ctx.font = "bold 15px Inter, sans-serif";
+  ctx.fillText("APPLICATION NO: " + d.appId, 52, 183);
+  ctx.fillStyle = "#475569";
+  ctx.font = "600 14px Inter, sans-serif";
+  ctx.fillText("ISSUED: " + nowStr, 480, 183);
+
+  const rows = [
+    ["Verified Booking Code", d.code],
+    ["Requested Slot Preference", d.slotText],
+    ["Official Squad / Team Name", d.team],
+    ["Captain WhatsApp Mobile", d.phone],
+    ["Captain BGMI Character UID", d.uid],
+    ["Player 1 (Captain / IGL)", d.players[0]],
+    ["Player 2 (Assaulter / Support)", d.players[1]],
+    ["Player 3 (Roster Member)", d.players[2]],
+    ["Player 4 (Roster Member)", d.players[3]],
+    ["Player 5 (Substitute)", d.players[4]],
+    ["12-Digit UPI UTR / Ref No.", d.utr],
+    ["Fee Payment Status", "SELF-DECLARED (ADMIN VERIFICATION PENDING)"]
+  ];
+
+  let startY = 228;
+  const rowH = 48;
+
+  rows.forEach((r, idx) => {
+    ctx.fillStyle = idx % 2 === 0 ? "#ffffff" : "#f8fafc";
+    ctx.fillRect(36, startY, 728, rowH);
+    ctx.strokeStyle = "#e2e8f0";
+    ctx.strokeRect(36, startY, 728, rowH);
+
+    ctx.fillStyle = "#475569";
+    ctx.font = "bold 14px Inter, sans-serif";
+    ctx.fillText(r[0], 52, startY + 29);
+
+    ctx.fillStyle = idx === 11 ? "#137333" : "#0f172a";
+    ctx.font = "800 15px Inter, sans-serif";
+    ctx.fillText(String(r[1]).slice(0, 42), 340, startY + 29);
+
+    startY += rowH;
+  });
+
+  ctx.fillStyle = "#fffbeb";
+  ctx.fillRect(36, 825, 470, 95);
+  ctx.strokeStyle = "#f59e0b";
+  ctx.strokeRect(36, 825, 470, 95);
+
+  ctx.fillStyle = "#92400e";
+  ctx.font = "bold 14px Inter, sans-serif";
+  ctx.fillText("IMPORTANT INSTRUCTIONS FOR CAPTAIN:", 52, 852);
+  ctx.font = "500 13px Inter, sans-serif";
+  ctx.fillText("1. Send this E-Receipt or UPI payment screenshot to the WhatsApp Desk.", 52, 876);
+  ctx.fillText("2. Final slot lock is confirmed in the Live Slot Register after UTR check.", 52, 898);
+
+  ctx.strokeStyle = "#137333";
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(525, 825, 239, 95);
+  ctx.fillStyle = "#e6f4ea";
+  ctx.fillRect(527, 827, 235, 91);
+
+  ctx.fillStyle = "#137333";
+  ctx.font = "800 14px Inter, sans-serif";
+  ctx.fillText("✓ PROVISIONAL E-SLIP", 560, 855);
+  ctx.font = "bold 12px Inter, sans-serif";
+  ctx.fillText("DJ ESPORTS AUTHORITY", 564, 878);
+  ctx.font = "600 11px Inter, sans-serif";
+  ctx.fillText("UTR: " + d.utr, 580, 899);
+
+  ctx.fillStyle = "#0f172a";
+  ctx.fillRect(0, 940, 800, 40);
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "600 12px Inter, sans-serif";
+  ctx.fillText("DJ ESPORTS TOURNAMENT DESK • SYSTEM GENERATED E-CHALLAN • DO NOT FORGE", 155, 965);
+
+  const link = document.createElement("a");
+  const cleanTeam = (d.team || "Squad").replace(/[^a-z0-9]/gi, "_");
+  link.download = `DJ_ESPORTS_Receipt_${cleanTeam}.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+document.getElementById("downloadReceiptBtn").addEventListener("click", generateAndDownloadReceipt);
+document.getElementById("modalReceiptBtn").addEventListener("click", generateAndDownloadReceipt);
+
+// WHATSAPP URL GENERATOR & MODAL OPENER
 document.getElementById("sendWhatsApp").addEventListener("click", function () {
-  if (!paymentCheckbox.checked) {
-    alert("Please confirm payment first.");
+  const d = getDetails();
+  if (!paymentCheckbox.checked || !/^[0-9]{12}$/.test(d.utr)) {
     showScreen("payment");
     return;
   }
 
-  const d = getDetails();
+  localStorage.setItem("dj_last_submission", JSON.stringify(d));
+  checkSavedReceiptRecovery();
+
   generatedWhatsappMessage =
-`*DJ ESPORTS 2017*
+`*DJ ESPORTS*
 *OFFICIAL TEAM REGISTRATION*
 
 ━━━━━━━━━━━━━━━━━━
 *01 | VERIFICATION & TEAM*
+Application ID: ${d.appId}
 Booking Code: ${d.code}
+Preferred Slot: ${d.slotText}
 Team Name: ${d.team}
 Captain Contact: ${d.phone}
+Captain BGMI UID: ${d.uid}
 
-*02 | SQUAD MEMBERS*
+*02 | SQUAD ROSTER*
 Player 1 (IGL): ${d.players[0]}
 Player 2: ${d.players[1]}
 Player 3: ${d.players[2]}
 Player 4: ${d.players[3]}
+Player 5 (Sub): ${d.players[4]}
 
-*03 | PAYMENT CONFIRMATION*
+*03 | FEE CHALLAN & UTR*
+12-Digit UPI UTR: ${d.utr}
 Payment Declaration: Completed
-Payment Proof: Attached
+Payment Proof: Screenshot Attached
 
 ━━━━━━━━━━━━━━━━━━
-Please review our registration and confirm the team slot after payment verification.
+Please verify our 12-digit UTR & screenshot and allot our squad slot.
 
-*Thank You | DJ ESPORTS 2017*`;
+*Thank You | DJ ESPORTS*`;
 
   const finalUrl = "https://api.whatsapp.com/send?phone=" + ADMIN_WHATSAPP + "&text=" + encodeURIComponent(generatedWhatsappMessage);
   openWhatsAppLink.setAttribute("href", finalUrl);
   copyStatus.textContent = "";
-  document.getElementById("successModal").classList.add("active");
+  successModal.classList.add("active");
 });
 
 copyMsgBtn.addEventListener("click", async function () {
@@ -1686,109 +2958,281 @@ copyMsgBtn.addEventListener("click", async function () {
 });
 
 document.getElementById("closeModal").addEventListener("click", () => {
-  document.getElementById("successModal").classList.remove("active");
+  successModal.classList.remove("active");
 });
 
-const slotList = document.getElementById("slotList");
-const slotCount = document.getElementById("slotCount");
-const slotMessage = document.getElementById("slotMessage");
-const capacityBadge = document.getElementById("capacityBadge");
+successModal.addEventListener("click", (e) => {
+  if (e.target === successModal) successModal.classList.remove("active");
+});
 
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeFullScreenQr();
+    slotPickerModal.classList.remove("active");
+    successModal.classList.remove("active");
+    rulesModal.classList.remove("active");
+  }
+});
+
+// RENDER BOTH LIVE SLOT REGISTRY & SLOT PICKER MODAL LIST
 function renderSlots(items) {
+  cachedSlotItems = Array.isArray(items) ? items : [];
   const byNumber = new Map();
-  (Array.isArray(items) ? items : []).forEach(item => {
-    const n = Number(item.slot ?? item.Slot);
+  occupiedSlotsSet.clear();
+  allottedTeamNamesSet.clear();
+
+  cachedSlotItems.forEach(item => {
+    const rawSlot = String(item.slot ?? "").replace(/\D/g, "");
+    const n = Number(rawSlot);
     if (n >= 1 && n <= 25) {
-      byNumber.set(n, String(item.teamName ?? item.team ?? item["Team Name"] ?? "").trim());
+      byNumber.set(n, {
+        team: String(item.teamName ?? "").trim(),
+        status: String(item.status ?? "").trim().toLowerCase()
+      });
     }
   });
 
+  const searchQuery = (slotSearchInput.value || "").trim().toLowerCase();
+  const statusFilter = slotStatusFilter.value;
+
   slotList.innerHTML = "";
-  let booked = 0;
+  slotPickerList.innerHTML = "";
+
+  // Add Auto-Allot option at top of Slot Picker Modal
+  const autoItem = document.createElement("div");
+  autoItem.className = "picker-item" + (preferredSlotNumber === null ? " selected" : "");
+  autoItem.setAttribute("data-slot", "auto");
+  autoItem.innerHTML = `
+    <div class="picker-item-left">
+      <div class="picker-item-title">⚡ Auto-Allot (Next Available Slot)</div>
+      <div class="picker-item-sub">System automatically assigns the first vacant slot</div>
+    </div>
+    <span class="badge-status badge-avail">DEFAULT</span>
+  `;
+  autoItem.addEventListener("click", () => {
+    selectPreferredSlot(null);
+    slotPickerModal.classList.remove("active");
+  });
+  slotPickerList.appendChild(autoItem);
+
+  let bookedCount = 0;
+  let pendingCount = 0;
 
   for (let n = 1; n <= 25; n++) {
-    const team = byNumber.get(n) || "";
-    const isBooked = Boolean(team);
-    if (isBooked) booked++;
+    const entry = byNumber.get(n) || { team: "", status: "" };
+    const team = entry.team;
+    const isPending = Boolean(team) && (entry.status.includes("pending") || team.toLowerCase().includes("pending"));
+    const isBooked = Boolean(team) && !isPending;
+    const isVacant = !isBooked && !isPending;
 
-    if (slotBars[n - 1]) {
-      slotBars[n - 1].classList.toggle("filled", isBooked);
-      slotBars[n - 1].title = "Slot " + n + (isBooked ? ": " + team : " (Vacant)");
+    if (team) {
+      allottedTeamNamesSet.add(team.replace(/\(pending\)/gi, "").trim().toLowerCase());
     }
 
+    if (isBooked) {
+      bookedCount++;
+      occupiedSlotsSet.add(n);
+    }
+    if (isPending) {
+      pendingCount++;
+      occupiedSlotsSet.add(n);
+    }
+
+    if (!isVacant && preferredSlotNumber === n) {
+      preferredSlotNumber = null;
+      saveDraftForm();
+    }
+
+    // Build Item in Slot Picker Modal List
+    const pItem = document.createElement("div");
+    pItem.className = "picker-item" + (isVacant ? "" : " disabled") + (preferredSlotNumber === n ? " selected" : "");
+    pItem.setAttribute("data-slot", String(n));
+
+    const pLeft = document.createElement("div");
+    pLeft.className = "picker-item-left";
+
+    const pTitle = document.createElement("div");
+    pTitle.className = "picker-item-title";
+    pTitle.textContent = "SLOT-" + String(n).padStart(2, "0");
+
+    const pSub = document.createElement("div");
+    pSub.className = "picker-item-sub";
+    pSub.textContent = isVacant ? "Vacant — Tap to select this slot" : team;
+
+    pLeft.append(pTitle, pSub);
+
+    const pBadge = document.createElement("span");
+    if (isBooked) {
+      pBadge.className = "badge-status badge-booked";
+      pBadge.textContent = "ALLOTTED";
+    } else if (isPending) {
+      pBadge.className = "badge-status badge-pending";
+      pBadge.textContent = "PENDING";
+    } else {
+      pBadge.className = "badge-status badge-avail";
+      pBadge.textContent = "VACANT";
+    }
+
+    pItem.append(pLeft, pBadge);
+
+    if (isVacant) {
+      pItem.addEventListener("click", () => {
+        selectPreferredSlot(n);
+        slotPickerModal.classList.remove("active");
+      });
+    } else {
+      pItem.addEventListener("click", () => {
+        pItem.classList.add("shake");
+        setTimeout(() => pItem.classList.remove("shake"), 350);
+      });
+    }
+
+    slotPickerList.appendChild(pItem);
+
+    // Build Row in Full Slot Registry Screen
+    const slotLabel = "slot-" + String(n).padStart(2, "0");
+    const matchesSearch = !searchQuery || slotLabel.includes(searchQuery) || team.toLowerCase().includes(searchQuery) || String(n) === searchQuery;
+    const matchesFilter =
+      statusFilter === "all" ||
+      (statusFilter === "vacant" && isVacant) ||
+      (statusFilter === "booked" && !isVacant);
+
+    if (!matchesSearch || !matchesFilter) continue;
+
     const tr = document.createElement("tr");
+    if (isVacant) {
+      tr.className = "vacant-row";
+      tr.title = "Tap to select SLOT-" + String(n).padStart(2, "0");
+      tr.addEventListener("click", () => {
+        selectPreferredSlot(n);
+        showScreen("details");
+      });
+    }
 
     const tdId = document.createElement("td");
     tdId.className = "slot-id-cell";
     tdId.textContent = "SLOT-" + String(n).padStart(2, "0");
 
     const tdTeam = document.createElement("td");
-    tdTeam.className = "slot-team-cell" + (isBooked ? "" : " empty");
-    tdTeam.textContent = team || "— Vacant —";
+    tdTeam.className = "slot-team-cell" + (team ? "" : " empty");
+    tdTeam.textContent = team || "Tap to Select Slot";
 
     const tdStatus = document.createElement("td");
     tdStatus.style.textAlign = "right";
 
     const badge = document.createElement("span");
-    badge.className = "badge-status " + (isBooked ? "badge-booked" : "badge-avail");
-    badge.textContent = isBooked ? "ALLOTTED" : "VACANT";
+    if (isBooked) {
+      badge.className = "badge-status badge-booked";
+      badge.textContent = "ALLOTTED";
+    } else if (isPending) {
+      badge.className = "badge-status badge-pending";
+      badge.textContent = "PENDING";
+    } else {
+      badge.className = "badge-status badge-avail";
+      badge.textContent = "VACANT";
+    }
 
     tdStatus.appendChild(badge);
     tr.append(tdId, tdTeam, tdStatus);
     slotList.appendChild(tr);
   }
 
-  const available = 25 - booked;
-  capacityBadge.textContent = available + " Vacant / 25 Total";
-  slotCount.textContent = booked + " / 25 ALLOTTED";
-  slotMessage.textContent = "Official register updated. Final slot confirmation is issued by the admin after fee verification.";
+  updateSelectedSlotUI();
+
+  const totalOccupied = bookedCount + pendingCount;
+  const available = 25 - totalOccupied;
+  const syncTime = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  capacityBadge.textContent = `${available} Vacant / 25`;
+  pickerModalCount.textContent = `${available} Vacant`;
+  slotCount.textContent = `${totalOccupied} / 25 FILLED`;
+  slotMessage.textContent = `● Live Synced at ${syncTime} · Tap any green VACANT row above to select it directly.`;
+
+  const isFull = totalOccupied >= 25;
+  quotaFullBanner.classList.toggle("active", isFull);
+  proceedToPayBtn.disabled = isFull;
 }
 
+slotSearchInput.addEventListener("input", () => renderSlots(cachedSlotItems));
+slotStatusFilter.addEventListener("change", () => renderSlots(cachedSlotItems));
+
+// SMART SLOT CSV PARSER
 function parseSlotCSV(text) {
-  const lines = text.split("\n");
+  const rows = parseCSVRows(text);
   const result = [];
-  if (lines.length === 0) return result;
+  if (rows.length === 0) return result;
 
-  const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ""));
+  const firstRowLower = rows[0].map(h => h.toLowerCase());
+  const hasHeader = firstRowLower.some(h => h.includes("slot") || h.includes("team") || h.includes("squad") || h.includes("name"));
 
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const currentline = lines[i].split(",");
-    const obj = {};
-    for (let j = 0; j < headers.length; j++) {
-      obj[headers[j]] = currentline[j] ? currentline[j].trim().replace(/^"|"$/g, "") : "";
-    }
+  const startIdx = hasHeader ? 1 : 0;
+  const slotIdx = hasHeader ? firstRowLower.findIndex(h => h.includes("slot") || h.includes("no") || h === "#") : 0;
+  const teamIdx = hasHeader ? firstRowLower.findIndex(h => h.includes("team") || h.includes("squad") || h.includes("name")) : 1;
+  const statusIdx = hasHeader ? firstRowLower.findIndex(h => h.includes("status")) : 2;
+
+  for (let i = startIdx; i < rows.length; i++) {
+    const cols = rows[i];
+    if (!cols || cols.length === 0) continue;
+
+    const slotVal = (slotIdx !== -1 && cols[slotIdx] !== undefined) ? cols[slotIdx] : (cols[0] || (i + (hasHeader ? 0 : 1)));
+    const teamVal = (teamIdx !== -1 && cols[teamIdx] !== undefined) ? cols[teamIdx] : (cols[1] || "");
+    const statusVal = (statusIdx !== -1 && cols[statusIdx] !== undefined) ? cols[statusIdx] : (cols[2] || "");
+
     result.push({
-      slot: obj["Slot"] || i,
-      teamName: obj["Team Name"] || ""
+      slot: slotVal,
+      teamName: teamVal,
+      status: statusVal
     });
   }
   return result;
 }
 
 async function loadSlots() {
+  if (isFetchingSlots) return;
+  isFetchingSlots = true;
+
   slotMessage.textContent = "Connecting to official Google Sheets register...";
-  slotCount.textContent = "Loading...";
+  slotCount.textContent = "Syncing...";
+  refreshIcon.classList.add("spin-icon");
+  refreshSlotsBtn.disabled = true;
+  refreshBtnText.textContent = "SYNCING REGISTER...";
 
   try {
-    const response = await fetch(SLOT_API_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error("HTTP " + response.status);
-    const csvText = await response.text();
+    const url = SLOT_API_URL + "&_t=" + Date.now();
+    const csvText = await fetchWithRetry(url, 8000, 1);
     const slotsData = parseSlotCSV(csvText);
     renderSlots(slotsData);
   } catch (error) {
     slotList.innerHTML = "";
-    slotCount.textContent = "Error";
-    slotMessage.textContent = "Slots load nahi ho paaye. Kripya check karein ki Google Sheet 'Anyone with the link can view' par set ho.";
+    slotCount.textContent = "Offline";
+    slotMessage.textContent = "Slots load nahi ho paaye. Kripya internet check karein ya verify karein ki Google Sheet 'Anyone with the link can view' par set ho.";
+  } finally {
+    isFetchingSlots = false;
+    refreshIcon.classList.remove("spin-icon");
+    refreshSlotsBtn.disabled = false;
+    refreshBtnText.textContent = "REFRESH REGISTER";
   }
 }
 
-document.getElementById("openSlots").addEventListener("click", () => {
-  showScreen("slots");
-  loadSlots();
+openSlotsBtn.addEventListener("click", () => {
+  const isCurrentlySlots = screens.slots.classList.contains("active");
+  if (isCurrentlySlots) {
+    showScreen(lastFormScreen || "details");
+  } else {
+    showScreen("slots");
+    loadSlots();
+  }
 });
-document.getElementById("refreshSlots").addEventListener("click", loadSlots);
-document.getElementById("backFromSlots").addEventListener("click", () => showScreen("details"));
+
+refreshSlotsBtn.addEventListener("click", loadSlots);
+document.getElementById("backFromSlots").addEventListener("click", () => {
+  showScreen(lastFormScreen || "details");
+});
+
+// RESTORE SESSION SAFELY
+const savedCode = sessionStorage.getItem("dj_verified_code");
+if (savedCode) {
+  unlockPortal(savedCode);
+}
 </script>
 
 </body>
